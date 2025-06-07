@@ -1,2 +1,2 @@
-appwrite==10.1.0
-ezdxf==1.1.1
+appwrite
+ezdxf
