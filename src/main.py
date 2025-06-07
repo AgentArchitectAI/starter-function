@@ -5,23 +5,14 @@ def main(context):
     res = context.res
 
     try:
-        raw_body = req.body
-        context.log(f"[DEBUG] req.body: {raw_body!r}")  
 
-        if not raw_body:
-            raise ValueError("El cuerpo del request está vacío.")
+        data = req.body
+        context.log(f"[DEBUG] req.body (tipo {type(data)}): {data}")
 
-        raw_input = json.loads(raw_body)
-        context.log(f"[DEBUG] JSON nivel 1: {raw_input}")
+        if not isinstance(data, dict) or "prompt" not in data:
+            raise ValueError("El campo 'prompt' es requerido en el JSON.")
 
-        data_str = raw_input.get("data", "")
-        if not data_str:
-            raise ValueError("El campo 'data' está vacío o no presente.")
-
-        data = json.loads(data_str)
-        context.log(f"[DEBUG] JSON decodificado en 'data': {data}")
-
-        prompt = data.get("prompt", "")
+        prompt = data["prompt"]
         context.log(f"[DEBUG] Prompt final: {prompt}")
 
         return res.json({
