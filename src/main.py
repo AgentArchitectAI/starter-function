@@ -5,8 +5,11 @@ def main(context):
     res = context.res
 
     try:
-
         data = req.body
+
+        if isinstance(data, (str, bytes)):
+            data = json.loads(data)
+
         context.log(f"[DEBUG] req.body (tipo {type(data)}): {data}")
 
         if not isinstance(data, dict) or "prompt" not in data:
@@ -17,7 +20,8 @@ def main(context):
 
         return res.json({
             "ok": True,
-            "prompt": prompt
+            "prompt": prompt,
+            "url": f"https://example.com/planos/{prompt.replace(' ', '_')}.dxf"
         })
 
     except Exception as e:
