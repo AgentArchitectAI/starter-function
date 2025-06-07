@@ -7,6 +7,9 @@ def main(context):
     try:
         data = req.body
 
+        if not data:
+            return res.json({"ok": True, "message": "MCP is alive"})
+
         if isinstance(data, (str, bytes)):
             data = json.loads(data)
 
