@@ -1,39 +1,34 @@
-from appwrite.client import Client
-from appwrite.services.users import Users
-from appwrite.exception import AppwriteException
-import os
+import json
 
-# This Appwrite function will be executed every time your function is triggered
 def main(context):
-    # You can use the Appwrite SDK to interact with other services
-    # For this example, we're using the Users service
-    client = (
-        Client()
-        .set_endpoint(os.environ["APPWRITE_FUNCTION_API_ENDPOINT"])
-        .set_project(os.environ["APPWRITE_FUNCTION_PROJECT_ID"])
-        .set_key(context.req.headers["x-appwrite-key"])
-    )
-    users = Users(client)
+    req = context.req
+    res = context.res
 
     try:
-        response = users.list()
-        # Log messages and errors to the Appwrite Console
-        # These logs won't be seen by your end users
-        context.log("Total users: " + str(response["total"]))
-    except AppwriteException as err:
-        context.error("Could not list users: " + repr(err))
+        raw_body = req.body
+        context.log(f"[DEBUG] req.body: {raw_body!r}")  
 
-    # The req object contains the request data
-    if context.req.path == "/ping":
-        # Use res object to respond with text(), json(), or binary()
-        # Don't forget to return a response!
-        return context.res.text("Pong")
+        if not raw_body:
+            raise ValueError("El cuerpo del request está vacío.")
 
-    return context.res.json(
-        {
-            "motto": "Build like a team of hundreds_",
-            "learn": "https://appwrite.io/docs",
-            "connect": "https://appwrite.io/discord",
-            "getInspired": "https://builtwith.appwrite.io",
-        }
-    )
+        raw_input = json.loads(raw_body)
+        context.log(f"[DEBUG] JSON nivel 1: {raw_input}")
+
+        data_str = raw_input.get("data", "")
+        if not data_str:
+            raise ValueError("El campo 'data' está vacío o no presente.")
+
+        data = json.loads(data_str)
+        context.log(f"[DEBUG] JSON decodificado en 'data': {data}")
+
+        prompt = data.get("prompt", "")
+        context.log(f"[DEBUG] Prompt final: {prompt}")
+
+        return res.json({
+            "ok": True,
+            "prompt": prompt
+        })
+
+    except Exception as e:
+        context.error(f"[ERROR]: {str(e)}")
+        return res.json({ "error": str(e) }, 500)
