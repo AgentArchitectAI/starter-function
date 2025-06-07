@@ -8,25 +8,23 @@ def main(context):
         data = req.body
 
         if not data:
-            return res.json({"ok": True, "message": "MCP is alive"})
+            return res.json({"text": "MCP architect-dxf listo"})
 
         if isinstance(data, (str, bytes)):
             data = json.loads(data)
-
-        context.log(f"[DEBUG] req.body (tipo {type(data)}): {data}")
 
         if not isinstance(data, dict) or "prompt" not in data:
             raise ValueError("El campo 'prompt' es requerido en el JSON.")
 
         prompt = data["prompt"]
-        context.log(f"[DEBUG] Prompt final: {prompt}")
+
+        filename = prompt.replace(" ", "_") + ".dxf"
+        url = f"https://example.com/planos/{filename}"
 
         return res.json({
-            "ok": True,
-            "prompt": prompt,
-            "url": f"https://example.com/planos/{prompt.replace(' ', '_')}.dxf"
+            "text": f"Plano generado para prompt: '{prompt}'\n Descargar DXF: {url}"
         })
 
     except Exception as e:
         context.error(f"[ERROR]: {str(e)}")
-        return res.json({ "error": str(e) }, 500)
+        return res.json({"text": f" Error: {str(e)}"}, 500)
