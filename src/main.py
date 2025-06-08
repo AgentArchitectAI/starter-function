@@ -24,7 +24,13 @@ def main(context):
         data = req.body
         context.log(f"[MCP] Tipo de req.body: {type(data)}")
 
-        if not data or (isinstance(data, (str, bytes)) and not data.strip()):
+        is_empty = (
+            data is None or
+            (isinstance(data, str) and data.strip() == "") or
+            (isinstance(data, bytes) and data.decode().strip() == "")
+        )
+
+        if is_empty:
             context.log("[MCP] Agent Zero hizo ping (POST vacío)")
             return res.send(
                 json.dumps({"text": " MCP architect-dxf activo y listo."}),
@@ -32,7 +38,9 @@ def main(context):
                 headers={"Content-Type": "text/event-stream"}
             )
 
-        if isinstance(data, (str, bytes)):
+        if isinstance(data, bytes):
+            data = data.decode()
+        if isinstance(data, str):
             data = json.loads(data)
 
         context.log(f"[MCP] Contenido recibido: {data}")
@@ -44,7 +52,6 @@ def main(context):
         context.log(f"[MCP] Prompt recibido: {prompt}")
 
         filename = prompt.replace(" ", "_") + ".dxf"
-
         doc = ezdxf.new()
         draw_architectural_plan(doc, prompt)
 
@@ -56,7 +63,6 @@ def main(context):
         client.set_endpoint(os.environ["APPWRITE_ENDPOINT"])
         client.set_project(os.environ["APPWRITE_PROJECT_ID"])
         client.set_key(os.environ["APPWRITE_API_KEY"])
-
         storage = Storage(client)
 
         file_id = uuid.uuid4().hex
@@ -70,7 +76,6 @@ def main(context):
             )
 
         download_url = f'{os.environ["APPWRITE_ENDPOINT"].rstrip("/")}/storage/buckets/{os.environ["APPWRITE_BUCKET_ID"]}/files/{file_id}/download?project={os.environ["APPWRITE_PROJECT_ID"]}'
-
         context.log(f"[MCP] Archivo subido. URL: {download_url}")
 
         return res.send(
