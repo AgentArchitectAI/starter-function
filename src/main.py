@@ -26,7 +26,11 @@ def main(context):
 
         if not data or (isinstance(data, (str, bytes)) and not data.strip()):
             context.log("[MCP] Agent Zero hizo ping (POST vacío)")
-            return res.json({"text": " MCP architect-dxf activo y listo."})
+            return res.send(
+                json.dumps({"text": " MCP architect-dxf activo y listo."}),
+                status=200,
+                headers={"Content-Type": "text/event-stream"}
+            )
 
         if isinstance(data, (str, bytes)):
             data = json.loads(data)
@@ -44,10 +48,10 @@ def main(context):
         doc = ezdxf.new()
         draw_architectural_plan(doc, prompt)
 
-        
         temp_path = os.path.join(tempfile.gettempdir(), filename)
         doc.saveas(temp_path)
         context.log(f"[MCP] Archivo generado en: {temp_path}")
+
         client = Client()
         client.set_endpoint(os.environ["APPWRITE_ENDPOINT"])
         client.set_project(os.environ["APPWRITE_PROJECT_ID"])
@@ -55,14 +59,13 @@ def main(context):
 
         storage = Storage(client)
 
-
         file_id = uuid.uuid4().hex
         with open(temp_path, "rb") as file:
             result = storage.create_file(
                 bucket_id=os.environ["APPWRITE_BUCKET_ID"],
                 file_id=file_id,
                 file=file,
-                read=["*"],  
+                read=["*"],
                 write=[]
             )
 
@@ -70,10 +73,18 @@ def main(context):
 
         context.log(f"[MCP] Archivo subido. URL: {download_url}")
 
-        return res.json({
-            "text": f" Plano generado con éxito.\n Descargar DXF: {download_url}"
-        })
+        return res.send(
+            json.dumps({
+                "text": f" Plano generado con éxito.\n Descargar DXF: {download_url}"
+            }),
+            status=200,
+            headers={"Content-Type": "text/event-stream"}
+        )
 
     except Exception as e:
         context.error(f"[ERROR MCP]: {str(e)}")
-        return res.json({"text": f" Error: {str(e)}"}, 500)
+        return res.send(
+            json.dumps({"text": f" Error: {str(e)}"}),
+            status=500,
+            headers={"Content-Type": "text/event-stream"}
+        )
