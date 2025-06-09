@@ -39,7 +39,7 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
                     b.add_circle(center=safe_tuple_float(entidad["centro"]), radius=float(entidad["radio"]))
                 elif tipo == "texto":
                     txt = b.add_text(entidad["texto"], dxfattribs={"height": float(entidad.get("alto", 250))})
-                    txt.set_pos(safe_tuple_float(entidad["posicion"]))
+                    txt.dxf.insert = safe_tuple_float(entidad["posicion"])
                     txt.set_align("LEFT")
         except Exception as e:
             print(f"   Error en bloque: {bloque.get('nombre', '')} - {e}")
@@ -67,7 +67,7 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
                     figura["texto"],
                     dxfattribs={"height": float(figura.get("alto", 250)), "color": color}
                 )
-                texto.set_pos(safe_tuple_float(figura["posicion"]))
+                texto.dxf.insert = safe_tuple_float(figura["posicion"])
                 texto.set_align("LEFT")
 
             elif tipo == "arco":
@@ -94,13 +94,17 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
                 hatch.set_solid_fill()
 
             elif tipo == "cota":
-                msp.add_linear_dim(
-                    base=safe_tuple_float(figura["base"]),
-                    p1=safe_tuple_float(figura["inicio"]),
-                    p2=safe_tuple_float(figura["fin"]),
-                    angle=float(figura.get("angulo", 0)),
-                    override={"dimtxt": figura.get("texto", "")}
-                ).render()
+                try:
+                    dim = msp.add_linear_dim(
+                        base=safe_tuple_float(figura["base"]),
+                        p1=safe_tuple_float(figura["inicio"]),
+                        p2=safe_tuple_float(figura["fin"]),
+                        angle=float(figura.get("angulo", 0)),
+                        override={"dimtxt": figura.get("texto", "")}
+                    )
+                    dim.render()
+                except Exception as e:
+                    print(f" Error en cota: {e}")
 
             elif tipo == "bloque":
                 if "nombre" in figura and "insertar_en" in figura:
@@ -120,7 +124,8 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
 
     layout = doc.layout()
     layout.add_line((0, 0), (210, 0), dxfattribs={"color": 6})
-    layout.add_text("Plano generado", dxfattribs={"height": 10}).set_pos((10, 20))
+    layout_text = layout.add_text("Plano generado", dxfattribs={"height": 10})
+    layout_text.dxf.insert = (10, 20)
 
     doc.saveas(filepath)
     return filepath
