@@ -121,7 +121,7 @@ def main(context):
         body = json.loads(req.body_raw)  
 
         if not body or "capas" not in body or "figuras" not in body:
-            return res.json({"error": "Debes enviar un JSON válido con 'capas' y 'figuras'."}, 400)
+            return res.json({"error": "Debess enviar un JSON válido con 'capas' y 'figuras'."}, 400)
 
         dxf_path = generar_dxf_desde_instrucciones(body)
 
