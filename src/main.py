@@ -64,7 +64,8 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
                     "color": color
                 }
             )
-            texto.set_pos(safe_tuple_float(figura["posicion"]), align="LEFT")
+            texto.set_pos(safe_tuple_float(figura["posicion"]))
+            texto.set_align("LEFT")
 
         elif tipo == "arco":
             msp.add_arc(
