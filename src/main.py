@@ -16,7 +16,7 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
     filepath = os.path.join(TMP_DIR, filename)
 
     doc = ezdxf.new(dxfversion="R2010")
-    doc.header['$INSUNITS'] = 4  
+    doc.header['$INSUNITS'] = 4
     msp = doc.modelspace()
 
     for capa in data.get("capas", []):
@@ -57,13 +57,14 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
             msp.add_circle(safe_tuple_float(figura["centro"]), float(figura["radio"]), dxfattribs=dxf_attribs)
 
         elif tipo == "texto":
-            msp.add_text(
+            texto = msp.add_text(
                 figura["texto"],
                 dxfattribs={
                     "height": float(figura.get("alto", 250)),
                     "color": color
                 }
-            ).set_pos(safe_tuple_float(figura["posicion"]))
+            )
+            texto.set_pos(safe_tuple_float(figura["posicion"]), align="LEFT")
 
         elif tipo == "arco":
             msp.add_arc(
