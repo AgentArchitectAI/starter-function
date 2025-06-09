@@ -32,7 +32,9 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
                 elif tipo == "circulo":
                     b.add_circle(center=entidad["centro"], radius=entidad["radio"])
                 elif tipo == "texto":
-                    b.add_text(entidad["texto"], dxfattribs={"height": entidad.get("alto", 250)}).set_pos(tuple(entidad["posicion"]))
+                    txt = b.add_text(entidad["texto"], dxfattribs={"height": entidad.get("alto", 250)})
+                    txt.set_pos(safe_tuple_float(entidad["posicion"]))
+                    txt.set_align("LEFT")
         except Exception:
             continue
 
