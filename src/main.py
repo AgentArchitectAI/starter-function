@@ -87,7 +87,8 @@ def main(context):
     res = context.res
 
     try:
-        body = req.json()
+        body = json.loads(req.body_raw)  
+
         if not body or "capas" not in body or "figuras" not in body:
             return res.json({"error": "Debes enviar un JSON válido con 'capas' y 'figuras'."}, 400)
 
