@@ -30,75 +30,44 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
                     b.add_text(entidad["texto"], dxfattribs={"height": entidad.get("alto", 250)}).set_pos(tuple(entidad["posicion"]))
         except Exception:
             continue
+
     for figura in data.get("figuras", []):
         tipo = figura.get("tipo")
         capa = figura.get("capa", "default")
-        color = int(figura.get("color", 7))
+        color = figura.get("color", 7)
         dxf_attribs = {"layer": capa, "color": color}
 
         if tipo == "rectangulo":
-            puntos = [tuple(map(float, pt)) for pt in figura["puntos"]]
-            msp.add_lwpolyline(puntos, close=True, dxfattribs=dxf_attribs)
-
+            msp.add_lwpolyline(figura["puntos"], close=True, dxfattribs=dxf_attribs)
         elif tipo == "linea":
-            msp.add_line(tuple(map(float, figura["inicio"])), tuple(map(float, figura["fin"])), dxfattribs=dxf_attribs)
-
+            msp.add_line(tuple(figura["inicio"]), tuple(figura["fin"]), dxfattribs=dxf_attribs)
         elif tipo == "circulo":
-            msp.add_circle(tuple(map(float, figura["centro"])), float(figura["radio"]), dxfattribs=dxf_attribs)
-
+            msp.add_circle(tuple(figura["centro"]), figura["radio"], dxfattribs=dxf_attribs)
         elif tipo == "texto":
-            msp.add_text(
-                figura["texto"],
-                dxfattribs={
-                    "height": float(figura.get("alto", 250)),
-                    "color": color
-                }
-            ).set_pos(tuple(map(float, figura["posicion"])))
-
+            msp.add_text(figura["texto"], dxfattribs={"height": figura.get("alto", 250), "color": color}).set_pos(tuple(figura["posicion"]))
         elif tipo == "arco":
-            msp.add_arc(
-                center=tuple(map(float, figura["centro"])),
-                radius=float(figura["radio"]),
-                start_angle=float(figura["inicio"]),
-                end_angle=float(figura["fin"]),
-                dxfattribs=dxf_attribs
-            )
-
+            msp.add_arc(center=tuple(figura["centro"]), radius=figura["radio"],
+                        start_angle=figura["inicio"], end_angle=figura["fin"], dxfattribs=dxf_attribs)
         elif tipo == "elipse":
-            msp.add_ellipse(
-                center=tuple(map(float, figura["centro"])),
-                major_axis=tuple(map(float, figura["eje_mayor"])),
-                ratio=float(figura.get("relacion", 0.5)),
-                dxfattribs=dxf_attribs
-            )
-
+            msp.add_ellipse(center=tuple(figura["centro"]),
+                            major_axis=tuple(figura["eje_mayor"]),
+                            ratio=figura.get("relacion", 0.5),
+                            dxfattribs=dxf_attribs)
         elif tipo == "hatch":
             hatch = msp.add_hatch(color=color, dxfattribs={"layer": capa})
-            puntos = [tuple(map(float, pt)) for pt in figura["puntos"]]
-            hatch.paths.add_polyline_path(puntos, is_closed=True)
+            hatch.paths.add_polyline_path(figura["puntos"], is_closed=True)
             hatch.set_solid_fill()
-
         elif tipo == "cota":
-            msp.add_linear_dim(
-                base=tuple(map(float, figura["base"])),
-                p1=tuple(map(float, figura["inicio"])),
-                p2=tuple(map(float, figura["fin"])),
-                angle=float(figura.get("angulo", 0)),
-                override={"dimtxt": figura.get("texto", "")}
-            ).render()
-
+            msp.add_linear_dim(base=tuple(figura["base"]),
+                               p1=tuple(figura["inicio"]),
+                               p2=tuple(figura["fin"]),
+                               angle=figura.get("angulo", 0),
+                               override={"dimtxt": figura.get("texto", "")}).render()
         elif tipo == "bloque":
             if "nombre" in figura and "insertar_en" in figura:
-                msp.add_blockref(
-                    figura["nombre"],
-                    tuple(map(float, figura["insertar_en"])),
-                    dxfattribs=dxf_attribs
-                )
-
+                msp.add_blockref(figura["nombre"], tuple(figura["insertar_en"]), dxfattribs=dxf_attribs)
         elif tipo == "polilinea3d":
-            puntos = [tuple(map(float, pt)) for pt in figura["puntos"]]
-            msp.add_polyline3d(puntos, dxfattribs=dxf_attribs)
-
+            msp.add_polyline3d(figura["puntos"], dxfattribs=dxf_attribs)
 
     layout = doc.layout()
     layout.add_line((0, 0), (210, 0), dxfattribs={"color": 6})
@@ -121,7 +90,7 @@ def main(context):
         body = json.loads(req.body_raw)  
 
         if not body or "capas" not in body or "figuras" not in body:
-            return res.json({"error": "Debess enviar un JSON válido con 'capas' y 'figuras'."}, 400)
+            return res.json({"error": "Debes enviar un JSON válido con 'capas' y 'figuras'."}, 400)
 
         dxf_path = generar_dxf_desde_instrucciones(body)
 
