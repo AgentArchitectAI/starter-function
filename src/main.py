@@ -83,9 +83,8 @@ def generar_dxf_desde_instrucciones(data: dict) -> str:
     return filepath
 
 def main(context):
-   req = context.req
-   res = context.res
-
+    req = context.req
+    res = context.res
 
     try:
         body = req.json()
