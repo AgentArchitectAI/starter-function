@@ -1,3 +1,4 @@
 ezdxf
-flask
 matplotlib
+pillow
+numpy
