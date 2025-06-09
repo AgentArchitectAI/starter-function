@@ -1,95 +1,140 @@
-import json
-import ezdxf
-import tempfile
 import os
 import uuid
-from appwrite.client import Client
-from appwrite.services.storage import Storage
+import ezdxf
+import json
+from flask import Flask, request, send_file, Response
+from ezdxf.addons.drawing import matplotlib
 
-def draw_architectural_plan(doc, prompt_text):
+app = Flask(__name__)
+os.makedirs("tmp", exist_ok=True)
+
+
+def generar_dxf_desde_instrucciones(data: dict) -> str:
+    filename = f"{uuid.uuid4().hex}.dxf"
+    filepath = os.path.join("tmp", filename)
+
+    doc = ezdxf.new(dxfversion="R2010")
+    doc.header['$INSUNITS'] = 4  
+
     msp = doc.modelspace()
-    msp.add_lwpolyline([
-        (0, 0), (6000, 0), (6000, 4000), (0, 4000), (0, 0)
-    ], dxfattribs={"closed": True})
-    msp.add_text(prompt_text, dxfattribs={
-        'height': 250,
-        'layer': 'TEXT'
-    }).set_pos((100, 3800), align='LEFT')
 
-def main(context):
-    req = context.req
-    res = context.res
+    for capa in data.get("capas", []):
+        doc.layers.new(name=capa["nombre"], dxfattribs={"color": capa.get("color", 7)})
+
+    for bloque in data.get("bloques", []):
+        try:
+            b = doc.blocks.new(name=bloque["nombre"])
+            for entidad in bloque.get("entidades", []):
+                tipo = entidad["tipo"]
+                if tipo == "rectangulo":
+                    b.add_lwpolyline(entidad["puntos"], close=True)
+                elif tipo == "circulo":
+                    b.add_circle(center=entidad["centro"], radius=entidad["radio"])
+        except Exception:
+            continue  
+
+    for figura in data.get("figuras", []):
+        tipo = figura.get("tipo")
+        capa = figura.get("capa", "default")
+        color = figura.get("color", 7)
+        dxf_attribs = {"layer": capa, "color": color}
+
+        if tipo == "rectangulo":
+            puntos = figura["puntos"]
+            msp.add_lwpolyline(puntos, close=True, dxfattribs=dxf_attribs)
+
+        elif tipo == "linea":
+            msp.add_line(tuple(figura["inicio"]), tuple(figura["fin"]), dxfattribs=dxf_attribs)
+
+        elif tipo == "circulo":
+            msp.add_circle(tuple(figura["centro"]), figura["radio"], dxfattribs=dxf_attribs)
+
+        elif tipo == "texto":
+            msp.add_text(
+                figura["texto"],
+                dxfattribs={"height": figura.get("alto", 250), "color": color}
+            ).set_pos(tuple(figura["posicion"]))
+
+        elif tipo == "arco":
+            msp.add_arc(
+                center=tuple(figura["centro"]),
+                radius=figura["radio"],
+                start_angle=figura["inicio"],
+                end_angle=figura["fin"],
+                dxfattribs=dxf_attribs
+            )
+
+        elif tipo == "elipse":
+            msp.add_ellipse(
+                center=tuple(figura["centro"]),
+                major_axis=tuple(figura["eje_mayor"]),
+                ratio=figura.get("relacion", 0.5),
+                dxfattribs=dxf_attribs
+            )
+
+        elif tipo == "hatch":
+            hatch = msp.add_hatch(color=color, dxfattribs={"layer": capa})
+            path = hatch.paths.add_polyline_path(figura["puntos"], is_closed=True)
+            hatch.set_solid_fill()
+
+        elif tipo == "cota":
+            msp.add_linear_dim(
+                base=tuple(figura["base"]),
+                p1=tuple(figura["inicio"]),
+                p2=tuple(figura["fin"]),
+                angle=figura.get("angulo", 0),
+                override={"dimtxt": figura.get("texto", "")}
+            ).render()
+
+        elif tipo == "bloque":
+            if "nombre" not in figura or "insertar_en" not in figura:
+                continue
+            try:
+                msp.add_blockref(figura["nombre"], tuple(figura["insertar_en"]), dxfattribs=dxf_attribs)
+            except Exception:
+                continue
+
+        elif tipo == "polilinea3d":
+            puntos = figura["puntos"]
+            msp.add_polyline3d(puntos, dxfattribs=dxf_attribs)
+
+    layout = doc.layout()
+    layout.add_line((0, 0), (210, 0), dxfattribs={"color": 6})
+    layout.add_text("Plano generado", dxfattribs={"height": 10}).set_pos((10, 20))
+
+    doc.saveas(filepath)
 
     try:
-        data = req.body
-        context.log(f"[MCP] Tipo de req.body: {type(data)}")
+        matplotlib.qsave(msp, filepath.replace(".dxf", ".png"))
+    except Exception:
+        pass
 
-        is_empty = (
-            data is None or
-            (isinstance(data, str) and data.strip() == "") or
-            (isinstance(data, bytes) and data.decode().strip() == "")
-        )
+    return filepath
 
-        if is_empty:
-            context.log("[MCP] Agent Zero hizo ping (POST vacío)")
-            return res.send(
-                json.dumps({"text": " MCP architect-dxf activo y listo."}),
-                status=200,
-                headers={"Content-Type": "text/event-stream"}
-            )
 
-        if isinstance(data, bytes):
-            data = data.decode()
-        if isinstance(data, str):
-            data = json.loads(data)
+@app.route("/", methods=["POST"])
+def handle():
+    try:
+        data = request.get_json()
 
-        context.log(f"[MCP] Contenido recibido: {data}")
+        if not data or "capas" not in data or "figuras" not in data:
+            raise ValueError("Debes enviar un JSON válido con 'capas' y 'figuras'.")
 
-        if not isinstance(data, dict) or "prompt" not in data:
-            raise ValueError("Falta el campo 'prompt'.")
-
-        prompt = data["prompt"]
-        context.log(f"[MCP] Prompt recibido: {prompt}")
-
-        filename = prompt.replace(" ", "_") + ".dxf"
-        doc = ezdxf.new()
-        draw_architectural_plan(doc, prompt)
-
-        temp_path = os.path.join(tempfile.gettempdir(), filename)
-        doc.saveas(temp_path)
-        context.log(f"[MCP] Archivo generado en: {temp_path}")
-
-        client = Client()
-        client.set_endpoint(os.environ["APPWRITE_ENDPOINT"])
-        client.set_project(os.environ["APPWRITE_PROJECT_ID"])
-        client.set_key(os.environ["APPWRITE_API_KEY"])
-        storage = Storage(client)
-
-        file_id = uuid.uuid4().hex
-        with open(temp_path, "rb") as file:
-            result = storage.create_file(
-                bucket_id=os.environ["APPWRITE_BUCKET_ID"],
-                file_id=file_id,
-                file=file,
-                read=["*"],
-                write=[]
-            )
-
-        download_url = f'{os.environ["APPWRITE_ENDPOINT"].rstrip("/")}/storage/buckets/{os.environ["APPWRITE_BUCKET_ID"]}/files/{file_id}/download?project={os.environ["APPWRITE_PROJECT_ID"]}'
-        context.log(f"[MCP] Archivo subido. URL: {download_url}")
-
-        return res.send(
-            json.dumps({
-                "text": f" Plano generado con éxito.\n Descargar DXF: {download_url}"
-            }),
-            status=200,
-            headers={"Content-Type": "text/event-stream"}
+        dxf_path = generar_dxf_desde_instrucciones(data)
+        return send_file(
+            dxf_path,
+            as_attachment=True,
+            download_name=os.path.basename(dxf_path),
+            mimetype="application/dxf"
         )
 
     except Exception as e:
-        context.error(f"[ERROR MCP]: {str(e)}")
-        return res.send(
-            json.dumps({"text": f" Error: {str(e)}"}),
+        return Response(
+            json.dumps({"error": str(e)}),
             status=500,
-            headers={"Content-Type": "text/event-stream"}
+            mimetype="application/json"
         )
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)
