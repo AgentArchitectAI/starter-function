@@ -1,0 +1,855 @@
+openapi: 3.1.0
+info:
+  title: Professional DXF Generation API
+  description: |
+    A comprehensive API for generating professional-grade DXF (AutoCAD Drawing Exchange Format) files from JSON instructions.
+    
+    ## Features
+    - **19 Entity Types**: From basic shapes to advanced 3D solids and professional annotations
+    - **Professional Standards**: Industry-compliant DXF output with proper layer management
+    - **Comprehensive Validation**: Geometric parameter validation and error handling
+    - **Processing Summaries**: Detailed reports on entity processing success/failure
+    - **Streaming Support**: Automatic streaming for large files (>1MB)
+    - **Request Validation**: Size limits and layer reference validation
+    
+    ## Supported Industries
+    - Architecture & Construction
+    - Mechanical Engineering  
+    - Manufacturing & Production
+    - Civil Engineering
+    - Technical Documentation
+    
+  version: 2.0.0
+  contact:
+    name: DXF Generation API
+    email: support@example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://your-appwrite-function-url.com
+    description: Production server
+  - url: http://localhost:3000
+    description: Development server
+
+paths:
+  /:
+    post:
+      summary: Generate DXF file from instructions
+      description: |
+        Generate a professional DXF file from structured JSON instructions. 
+        Supports 19 different entity types across multiple categories:
+        
+        **Basic Geometry (5 types):**
+        - Rectangle, Circle, Line, Text, Arc
+        
+        **Advanced Geometry (5 types):**
+        - Spline, Polyline, Ellipse, 3D Solids, Mesh
+        
+        **Annotations (4 types):**
+        - Dimensions, Leaders, Hatching, MTEXT
+        
+        **Professional Features (4 types):**
+        - Viewports, Linetypes, Layer States, Attributes
+        
+        **Coordinate Systems (1 type):**
+        - UCS Definitions & Transformations
+        
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DXFRequest'
+            examples:
+              simple_mechanical_part:
+                summary: Simple Mechanical Part
+                description: A basic mechanical part with dimensions
+                value:
+                  layers:
+                    - name: "Geometry"
+                      color: 7
+                    - name: "Dimensions" 
+                      color: 2
+                  figures:
+                    - type: "rectangle"
+                      points: [[0,0], [50,0], [50,30], [0,30]]
+                      layer: "Geometry"
+                    - type: "circle"
+                      center: [25, 15]
+                      radius: 8
+                      layer: "Geometry"
+                    - type: "dimension"
+                      dimension_type: "linear"
+                      start: [0,0]
+                      end: [50,0]
+                      dimline_point: [25,-10]
+                      layer: "Dimensions"
+              
+              kitchen_layout:
+                summary: Kitchen Layout
+                description: Comprehensive kitchen layout with cabinets, appliances, and annotations
+                value:
+                  layers:
+                    - name: "Walls"
+                      color: 7
+                    - name: "Cabinets"
+                      color: 3
+                    - name: "Appliances"
+                      color: 5
+                    - name: "Dimensions"
+                      color: 2
+                  figures:
+                    - type: "rectangle"
+                      points: [[0,0], [4000,0], [4000,3000], [0,3000]]
+                      layer: "Walls"
+                    - type: "rectangle"
+                      points: [[100,100], [1500,100], [1500,700], [100,700]]
+                      layer: "Cabinets"
+                    - type: "rectangle"
+                      points: [[700,700], [1300,700], [1300,1300], [700,1300]]
+                      layer: "Appliances"
+                    - type: "dimension"
+                      dimension_type: "linear"
+                      start: [0,0]
+                      end: [4000,0]
+                      dimline_point: [2000,-200]
+                      layer: "Dimensions"
+                    - type: "text"
+                      text: "KITCHEN LAYOUT"
+                      position: [2000, 2800]
+                      height: 200
+                      layer: "Walls"
+              
+              architectural_floor_plan:
+                summary: Architectural Floor Plan
+                description: Professional floor plan with hatching and annotations
+                value:
+                  layers:
+                    - name: "Walls"
+                      color: 7
+                    - name: "Doors"
+                      color: 3
+                    - name: "Windows"
+                      color: 4
+                    - name: "Text"
+                      color: 2
+                  figures:
+                    - type: "polyline"
+                      points: [[0,0], [8000,0], [8000,6000], [0,6000]]
+                      closed: true
+                      layer: "Walls"
+                    - type: "hatch"
+                      boundary: [[1000,0], [2000,0], [2000,200], [1000,200]]
+                      pattern: "ANSI31"
+                      layer: "Doors"
+                    - type: "rectangle"
+                      points: [[2500,0], [4500,0], [4500,150], [2500,150]]
+                      layer: "Windows"
+                    - type: "mtext"
+                      text: "LIVING ROOM\\P24.5 m²"
+                      position: [4000, 3000]
+                      width: 2000
+                      height: 150
+                      alignment: "CENTER"
+                      layer: "Text"
+
+      responses:
+        '200':
+          description: DXF file generated successfully
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/dxf
+            Content-Disposition:
+              schema:
+                type: string
+                example: 'attachment; filename="generated.dxf"'
+            X-Processing-Summary:
+              schema:
+                type: string
+                description: JSON string containing processing summary
+          content:
+            application/dxf:
+              schema:
+                type: string
+                format: binary
+                description: Binary DXF file content
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessingSummary'
+              description: Processing summary (when return_summary=true)
+        
+        '400':
+          description: Invalid request format or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                validation_error:
+                  summary: Validation Error
+                  value:
+                    error: "Invalid request format: [{'loc': ['figures', 0, 'center'], 'msg': 'field required', 'type': 'value_error.missing'}]"
+                oversized_request:
+                  summary: Oversized Request
+                  value:
+                    error: "Too many entities requested: 15000 (max: 10000)"
+                layer_reference_error:
+                  summary: Layer Reference Error
+                  value:
+                    error: "Figure references undefined layer: 'NonExistentLayer'"
+        
+        '500':
+          description: Internal server error during DXF generation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                generation_error:
+                  summary: Generation Error
+                  value:
+                    error: "Failed to generate DXF: Invalid geometry parameters"
+                internal_error:
+                  summary: Internal Error
+                  value:
+                    error: "Internal server error"
+
+components:
+  schemas:
+    DXFRequest:
+      type: object
+      required:
+        - layers
+        - figures
+      properties:
+        layers:
+          type: array
+          description: Layer definitions for organizing drawing elements
+          items:
+            $ref: '#/components/schemas/Layer'
+          minItems: 1
+        
+        blocks:
+          type: array
+          description: Reusable block definitions
+          items:
+            $ref: '#/components/schemas/Block'
+        
+        figures:
+          type: array
+          description: Drawing entities/figures to generate
+          items:
+            $ref: '#/components/schemas/Figure'
+          minItems: 1
+          maxItems: 10000
+        
+        return_summary:
+          type: boolean
+          description: Return processing summary instead of DXF file
+          default: false
+        
+        streaming_threshold:
+          type: integer
+          description: File size threshold for streaming response (bytes)
+          default: 1048576
+          minimum: 1024
+        
+        client_info:
+          type: object
+          description: Client application information for logging
+          properties:
+            application:
+              type: string
+              example: "CAD Application"
+            version:
+              type: string
+              example: "1.0.0"
+            user:
+              type: string
+              example: "john.doe"
+
+    Layer:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Layer name
+          pattern: '^[A-Za-z0-9_-]+$'
+          maxLength: 255
+        color:
+          type: integer
+          description: AutoCAD color index (0-255)
+          minimum: 0
+          maximum: 255
+          default: 7
+
+    Block:
+      type: object
+      required:
+        - name
+        - entities
+      properties:
+        name:
+          type: string
+          description: Block name
+          pattern: '^[A-Za-z0-9_-]+$'
+          maxLength: 255
+        entities:
+          type: array
+          description: Entities within the block
+          items:
+            $ref: '#/components/schemas/Entity'
+
+    Figure:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            layer:
+              type: string
+              description: Layer name for this figure
+              default: "default"
+
+    Entity:
+      type: object
+      required:
+        - type
+      discriminator:
+        propertyName: type
+        mapping:
+          rectangle: '#/components/schemas/RectangleEntity'
+          circle: '#/components/schemas/CircleEntity'
+          line: '#/components/schemas/LineEntity'
+          text: '#/components/schemas/TextEntity'
+          arc: '#/components/schemas/ArcEntity'
+          spline: '#/components/schemas/SplineEntity'
+          polyline: '#/components/schemas/PolylineEntity'
+          ellipse: '#/components/schemas/EllipseEntity'
+          solid: '#/components/schemas/SolidEntity'
+          mesh: '#/components/schemas/MeshEntity'
+          dimension: '#/components/schemas/DimensionEntity'
+          leader: '#/components/schemas/LeaderEntity'
+          hatch: '#/components/schemas/HatchEntity'
+          mtext: '#/components/schemas/MTextEntity'
+          viewport: '#/components/schemas/ViewportEntity'
+          linetype: '#/components/schemas/LinetypeEntity'
+          layer_state: '#/components/schemas/LayerStateEntity'
+          attribute: '#/components/schemas/AttributeEntity'
+          coordinate_system: '#/components/schemas/CoordinateSystemEntity'
+      properties:
+        type:
+          type: string
+          description: Entity type
+          enum: [rectangle, circle, line, text, arc, spline, polyline, ellipse, solid, mesh, dimension, leader, hatch, mtext, viewport, linetype, layer_state, attribute, coordinate_system]
+        color:
+          type: integer
+          description: Entity color override
+          minimum: 0
+          maximum: 255
+          default: 7
+
+    # Basic Geometry Entities
+    RectangleEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - points
+          properties:
+            points:
+              type: array
+              description: Rectangle corner points
+              items:
+                $ref: '#/components/schemas/Point2D'
+              minItems: 4
+              maxItems: 4
+
+    CircleEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - center
+            - radius
+          properties:
+            center:
+              $ref: '#/components/schemas/Point2D'
+            radius:
+              type: number
+              minimum: 0.001
+              maximum: 1000000
+
+    LineEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - start
+            - end
+          properties:
+            start:
+              $ref: '#/components/schemas/Point2D'
+            end:
+              $ref: '#/components/schemas/Point2D'
+
+    TextEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - text
+            - position
+          properties:
+            text:
+              type: string
+              maxLength: 1000
+            position:
+              $ref: '#/components/schemas/Point2D'
+            height:
+              type: number
+              minimum: 1
+              maximum: 10000
+              default: 250
+
+    ArcEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - center
+            - radius
+            - start_angle
+            - end_angle
+          properties:
+            center:
+              $ref: '#/components/schemas/Point2D'
+            radius:
+              type: number
+              minimum: 0.001
+              maximum: 1000000
+            start_angle:
+              type: number
+              minimum: -360
+              maximum: 360
+            end_angle:
+              type: number
+              minimum: -360
+              maximum: 360
+
+    # Advanced Geometry Entities
+    SplineEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - control_points
+          properties:
+            control_points:
+              type: array
+              items:
+                $ref: '#/components/schemas/Point2D'
+              minItems: 2
+              maxItems: 1000
+            degree:
+              type: integer
+              minimum: 1
+              maximum: 10
+              default: 3
+            closed:
+              type: boolean
+              default: false
+
+    PolylineEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - points
+          properties:
+            points:
+              type: array
+              items:
+                oneOf:
+                  - $ref: '#/components/schemas/Point2D'
+                  - $ref: '#/components/schemas/Point3D'
+              minItems: 2
+              maxItems: 10000
+            closed:
+              type: boolean
+              default: false
+
+    EllipseEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - center
+            - major_axis
+          properties:
+            center:
+              $ref: '#/components/schemas/Point2D'
+            major_axis:
+              $ref: '#/components/schemas/Point2D'
+            ratio:
+              type: number
+              minimum: 0.001
+              maximum: 1.0
+              default: 0.5
+
+    SolidEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          properties:
+            solid_type:
+              type: string
+              enum: [box, cylinder, sphere]
+              default: box
+            corner1:
+              $ref: '#/components/schemas/Point3D'
+            corner2:
+              $ref: '#/components/schemas/Point3D'
+            radius:
+              type: number
+              minimum: 0.001
+            height:
+              type: number
+              minimum: 0.001
+
+    MeshEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - vertices
+            - faces
+          properties:
+            vertices:
+              type: array
+              items:
+                $ref: '#/components/schemas/Point3D'
+              minItems: 3
+              maxItems: 50000
+            faces:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integer
+                minItems: 3
+
+    # Annotation Entities
+    DimensionEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - dimension_type
+          properties:
+            dimension_type:
+              type: string
+              enum: [linear, radial, diameter, angular]
+            start:
+              $ref: '#/components/schemas/Point2D'
+            end:
+              $ref: '#/components/schemas/Point2D'
+            dimline_point:
+              $ref: '#/components/schemas/Point2D'
+            center:
+              $ref: '#/components/schemas/Point2D'
+            radius_point:
+              $ref: '#/components/schemas/Point2D'
+            text_override:
+              type: string
+              maxLength: 100
+
+    LeaderEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - vertices
+          properties:
+            vertices:
+              type: array
+              items:
+                $ref: '#/components/schemas/Point2D'
+              minItems: 2
+              maxItems: 10
+            text:
+              type: string
+              maxLength: 500
+            text_height:
+              type: number
+              minimum: 1
+              default: 250
+
+    HatchEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - boundary
+          properties:
+            boundary:
+              type: array
+              items:
+                $ref: '#/components/schemas/Point2D'
+              minItems: 3
+              maxItems: 1000
+            pattern:
+              type: string
+              default: "SOLID"
+              enum: [SOLID, ANSI31, ANSI32, ANSI33, ANSI34, ANSI35, ANSI36, ANSI37, ANSI38]
+            pattern_scale:
+              type: number
+              minimum: 0.001
+              maximum: 1000
+              default: 1.0
+            pattern_angle:
+              type: number
+              minimum: -360
+              maximum: 360
+              default: 0.0
+
+    MTextEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - text
+            - position
+          properties:
+            text:
+              type: string
+              maxLength: 5000
+              description: "Use \\P for line breaks"
+            position:
+              $ref: '#/components/schemas/Point2D'
+            height:
+              type: number
+              minimum: 1
+              maximum: 10000
+              default: 250
+            width:
+              type: number
+              minimum: 100
+              maximum: 100000
+              default: 1000
+            alignment:
+              type: string
+              enum: [LEFT, CENTER, RIGHT]
+              default: LEFT
+
+    # Professional Feature Entities
+    ViewportEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - center
+            - width
+            - height
+          properties:
+            center:
+              $ref: '#/components/schemas/Point2D'
+            width:
+              type: number
+              minimum: 1
+              maximum: 100000
+            height:
+              type: number
+              minimum: 1
+              maximum: 100000
+            label:
+              type: string
+              maxLength: 100
+
+    LinetypeEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - linetype_name
+          properties:
+            linetype_name:
+              type: string
+              maxLength: 255
+            linetype_pattern:
+              type: array
+              items:
+                type: number
+              maxItems: 20
+
+    LayerStateEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - layer_name
+          properties:
+            layer_name:
+              type: string
+            visible:
+              type: boolean
+              default: true
+            frozen:
+              type: boolean
+              default: false
+            locked:
+              type: boolean
+              default: false
+            lineweight:
+              type: string
+              default: "DEFAULT"
+
+    AttributeEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - attribute_type
+            - tag
+            - position
+          properties:
+            attribute_type:
+              type: string
+              enum: [definition, value]
+            tag:
+              type: string
+              maxLength: 255
+            position:
+              $ref: '#/components/schemas/Point2D'
+            prompt:
+              type: string
+              maxLength: 500
+            default_value:
+              type: string
+              maxLength: 500
+            value:
+              type: string
+              maxLength: 500
+
+    # Coordinate System Entities
+    CoordinateSystemEntity:
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - type: object
+          required:
+            - transform_type
+          properties:
+            transform_type:
+              type: string
+              enum: [translate, rotate, scale, ucs]
+            offset:
+              $ref: '#/components/schemas/Point2D'
+            base_point:
+              $ref: '#/components/schemas/Point2D'
+            origin:
+              $ref: '#/components/schemas/Point2D'
+            x_axis:
+              $ref: '#/components/schemas/Point2D'
+            y_axis:
+              $ref: '#/components/schemas/Point2D'
+
+    # Common Data Types
+    Point2D:
+      type: array
+      items:
+        type: number
+      minItems: 2
+      maxItems: 2
+      example: [100.0, 200.0]
+
+    Point3D:
+      type: array
+      items:
+        type: number
+      minItems: 3
+      maxItems: 3
+      example: [100.0, 200.0, 50.0]
+
+    ProcessingSummary:
+      type: object
+      properties:
+        processing_summary:
+          type: object
+          properties:
+            start_time:
+              type: string
+              format: date-time
+            end_time:
+              type: string
+              format: date-time
+            total_entities:
+              type: integer
+              minimum: 0
+            successful_entities:
+              type: integer
+              minimum: 0
+            failed_entities:
+              type: integer
+              minimum: 0
+            success_rate:
+              type: string
+              pattern: '^\d+\.\d+%$'
+            entities_by_type:
+              type: object
+              additionalProperties:
+                type: integer
+            entities_by_layer:
+              type: object
+              additionalProperties:
+                type: integer
+            file_info:
+              type: object
+              properties:
+                path:
+                  type: string
+                size_bytes:
+                  type: integer
+                generation_time_ms:
+                  type: integer
+        warnings:
+          type: array
+          items:
+            type: string
+        errors:
+          type: array
+          items:
+            type: string
+        entity_details:
+          oneOf:
+            - type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  layer:
+                    type: string
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+            - type: string
+              pattern: '^\(\d+ entities - details truncated\)$'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong
+
+tags:
+  - name: DXF Generation
+    description: Professional DXF file generation from JSON instructions
