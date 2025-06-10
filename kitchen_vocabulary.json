@@ -1,0 +1,206 @@
+{
+  "layouts": {
+    "l_shaped": [
+      "l-shaped", "corner kitchen", "angular layout", "l shape", "l kitchen",
+      "corner design", "two-wall corner", "l configuration"
+    ],
+    "galley": [
+      "galley", "corridor", "two-wall kitchen", "narrow kitchen", "parallel",
+      "ship galley", "walkthrough", "straight kitchen"
+    ],
+    "u_shaped": [
+      "u-shaped", "horseshoe", "three-wall", "u shape", "u kitchen",
+      "three-sided", "enclosed", "wrap-around"
+    ],
+    "open_plan": [
+      "open plan", "open concept", "great room", "open kitchen", "flowing",
+      "integrated", "combined space", "no walls"
+    ],
+    "compact": [
+      "compact", "small", "tiny", "studio", "efficiency", "mini",
+      "space-saving", "minimal"
+    ]
+  },
+  "styles": {
+    "modern": [
+      "modern", "contemporary", "minimalist", "sleek", "current", "clean",
+      "simple", "streamlined", "fresh", "crisp", "uncluttered"
+    ],
+    "traditional": [
+      "traditional", "classic", "farmhouse", "country", "rustic", "timeless",
+      "conventional", "heritage", "colonial", "vintage"
+    ],
+    "industrial": [
+      "industrial", "urban", "loft", "metal", "concrete", "exposed",
+      "warehouse", "commercial", "steel", "raw"
+    ],
+    "transitional": [
+      "transitional", "mixed", "blend", "fusion", "combined", "balanced",
+      "hybrid", "eclectic", "versatile"
+    ]
+  },
+  "appliances": {
+    "island": [
+      "island", "central counter", "kitchen island", "center island",
+      "work island", "cooking island", "prep island"
+    ],
+    "peninsula": [
+      "peninsula", "breakfast bar", "extended counter", "attached island",
+      "counter extension", "bar counter"
+    ],
+    "refrigerator": [
+      "refrigerator", "fridge", "cooling", "cold storage", "icebox",
+      "freezer", "cooler"
+    ],
+    "stove": [
+      "stove", "range", "cooktop", "cooking", "burners", "gas range",
+      "electric range", "induction", "hob"
+    ],
+    "sink": [
+      "sink", "basin", "washing", "cleanup", "wash basin", "kitchen sink",
+      "prep sink", "farmhouse sink"
+    ],
+    "dishwasher": [
+      "dishwasher", "dish washing", "cleaning", "dish cleaner",
+      "automatic washing"
+    ],
+    "oven": [
+      "oven", "baking", "roasting", "wall oven", "built-in oven",
+      "convection oven"
+    ],
+    "microwave": [
+      "microwave", "micro", "quick heating", "microwave oven"
+    ],
+    "range_hood": [
+      "range hood", "exhaust hood", "vent hood", "ventilation",
+      "cooking exhaust", "kitchen fan"
+    ],
+    "garbage_disposal": [
+      "garbage disposal", "disposal", "waste disposal", "food disposal"
+    ]
+  },
+  "features": {
+    "pantry": [
+      "pantry", "storage room", "food storage", "walk-in pantry",
+      "butler's pantry", "larder"
+    ],
+    "breakfast_nook": [
+      "breakfast nook", "eating area", "dining", "breakfast area",
+      "casual dining", "kitchen table"
+    ],
+    "bar_seating": [
+      "bar seating", "counter seating", "stools", "high chairs",
+      "breakfast bar", "counter dining"
+    ],
+    "wine_storage": [
+      "wine storage", "wine rack", "wine cellar", "wine cooler",
+      "wine refrigerator"
+    ],
+    "coffee_station": [
+      "coffee station", "coffee bar", "beverage station", "coffee nook"
+    ],
+    "herb_garden": [
+      "herb garden", "indoor herbs", "kitchen garden", "growing herbs"
+    ]
+  },
+  "materials": {
+    "granite": [
+      "granite", "granite countertops", "stone counters", "natural stone"
+    ],
+    "quartz": [
+      "quartz", "engineered stone", "quartz countertops", "solid surface"
+    ],
+    "marble": [
+      "marble", "marble countertops", "natural marble", "carrara"
+    ],
+    "wood": [
+      "wood", "wooden", "timber", "hardwood", "wood cabinets",
+      "wooden countertops", "butcher block"
+    ],
+    "stainless_steel": [
+      "stainless steel", "steel", "metal", "stainless appliances",
+      "steel countertops"
+    ]
+  },
+  "colors": {
+    "white": [
+      "white", "bright white", "off-white", "cream", "ivory", "pearl"
+    ],
+    "gray": [
+      "gray", "grey", "charcoal", "slate", "silver"
+    ],
+    "black": [
+      "black", "dark", "ebony", "midnight", "coal"
+    ],
+    "brown": [
+      "brown", "wooden", "natural wood", "walnut", "oak", "cherry"
+    ],
+    "blue": [
+      "blue", "navy", "coastal", "ocean", "sky blue"
+    ]
+  },
+  "sizes": {
+    "small": [
+      "small", "compact", "tiny", "mini", "petite", "cozy"
+    ],
+    "medium": [
+      "medium", "average", "standard", "normal", "typical"
+    ],
+    "large": [
+      "large", "big", "spacious", "roomy", "expansive", "grand"
+    ],
+    "extra_large": [
+      "extra large", "huge", "massive", "enormous", "oversized"
+    ]
+  },
+  "budget_indicators": {
+    "budget": [
+      "budget", "affordable", "economical", "cost-effective", "inexpensive",
+      "value", "basic"
+    ],
+    "mid_range": [
+      "mid-range", "moderate", "standard", "quality", "good value"
+    ],
+    "luxury": [
+      "luxury", "high-end", "premium", "upscale", "expensive",
+      "top-of-the-line", "designer", "custom"
+    ]
+  },
+  "workflow_zones": {
+    "cooking_zone": [
+      "cooking zone", "cooking area", "stove area", "chef zone"
+    ],
+    "prep_zone": [
+      "prep zone", "preparation area", "cutting area", "food prep"
+    ],
+    "cleaning_zone": [
+      "cleaning zone", "wash area", "sink area", "cleanup zone"
+    ],
+    "storage_zone": [
+      "storage zone", "pantry area", "cabinet area", "storage space"
+    ]
+  },
+  "measurement_units": {
+    "metric": [
+      "meters", "metres", "m", "mm", "millimeters", "cm", "centimeters"
+    ],
+    "imperial": [
+      "feet", "ft", "inches", "in", "yards"
+    ]
+  },
+  "descriptive_modifiers": {
+    "professional": [
+      "professional", "chef", "commercial-grade", "restaurant-style",
+      "pro-style", "culinary"
+    ],
+    "family": [
+      "family", "family-friendly", "casual", "everyday", "practical"
+    ],
+    "entertaining": [
+      "entertaining", "party", "hosting", "social", "gathering"
+    ],
+    "efficient": [
+      "efficient", "functional", "practical", "organized", "smart"
+    ]
+  }
+}

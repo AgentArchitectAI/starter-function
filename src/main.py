@@ -13,6 +13,13 @@ from datetime import datetime
 import tempfile
 import atexit
 
+# Import template engine for Agent Zero integration
+try:
+    from kitchen_template_engine import KitchenTemplateEngine
+except ImportError:
+    logger.warning("Template engine not available - Agent Zero features will be disabled")
+    KitchenTemplateEngine = None
+
 TMP_DIR = "/tmp"
 
 # Configure structured logging
@@ -344,6 +351,36 @@ class DXFRequestModel(BaseModel):
     # Step 4: API improvements
     return_summary: Optional[bool] = Field(False, description="Return processing summary instead of DXF file")
     streaming_threshold: Optional[int] = Field(1048576, description="File size threshold for streaming (bytes)")
+    client_info: Optional[Dict[str, Any]] = Field(None, description="Client information for logging")
+
+class TemplateRequestModel(BaseModel):
+    """Request model for template-based kitchen generation."""
+    template_name: str = Field(..., description="Kitchen template name")
+    customization: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Template customization parameters")
+    return_summary: Optional[bool] = Field(False, description="Return processing summary instead of DXF file")
+    client_info: Optional[Dict[str, Any]] = Field(None, description="Client information for logging")
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "template_name": "modern_l_shaped",
+                "customization": {
+                    "dimensions": [4000, 3000],
+                    "style": "modern",
+                    "appliances": ["island", "dishwasher"]
+                },
+                "return_summary": False,
+                "client_info": {
+                    "application": "Agent Zero",
+                    "version": "1.0.0"
+                }
+            }
+        }
+
+class LegacySemanticRequestModel(BaseModel):
+    """Legacy request model for backward compatibility with semantic parsing."""
+    description: str = Field(..., description="Natural language kitchen description (legacy)")
+    return_summary: Optional[bool] = Field(False, description="Return processing summary instead of DXF file")
     client_info: Optional[Dict[str, Any]] = Field(None, description="Client information for logging")
 
 # Utility Functions
@@ -1592,12 +1629,209 @@ class DXFGenerator:
         layout_text.dxf.insert = (10, 20)
 
 # Main function remains the same but uses the new architecture
+def handle_template_request(req: Any, res: Any) -> Any:
+    """
+    Handle template-based kitchen generation for Agent Zero.
+    
+    Args:
+        req: Request object from Appwrite
+        res: Response object from Appwrite
+        
+    Returns:
+        Binary DXF file or JSON response
+    """
+    if KitchenTemplateEngine is None:
+        return res.json({"error": "Template engine not available"}, 503)
+    
+    try:
+        body = json.loads(req.body_raw)
+        logger.info("Template-based DXF generation request received")
+        logger.debug(f"Template request: {json.dumps(body, indent=2)}")
+        
+        # Validate template request
+        try:
+            validated_request = TemplateRequestModel(**body)
+            logger.info("Template request validation successful")
+        except PydanticValidationError as ve:
+            logger.warning(f"Template validation failed: {ve.errors()}")
+            return res.json({"error": f"Invalid template request format: {ve.errors()}"}, 400)
+        
+        # Initialize template engine
+        engine = KitchenTemplateEngine()
+        
+        # Get and customize template
+        try:
+            base_template = engine.get_template(validated_request.template_name)
+            customized_template = engine.customize_template(base_template, validated_request.customization)
+            
+            # Validate the customized template
+            validation_result = engine.validate_kitchen_json(customized_template["dxf_template"])
+            if not validation_result["valid"]:
+                logger.warning(f"Template validation issues: {validation_result['errors']}")
+                return res.json({
+                    "error": "Template validation failed",
+                    "validation_errors": validation_result["errors"]
+                }, 400)
+            
+        except ValueError as e:
+            logger.warning(f"Template not found: {e}")
+            available_templates = engine.list_templates()
+            return res.json({
+                "error": str(e),
+                "available_templates": available_templates
+            }, 400)
+        
+        # Prepare DXF instructions
+        dxf_instructions = customized_template["dxf_template"].copy()
+        
+        # Add client info if provided
+        if validated_request.client_info:
+            dxf_instructions["client_info"] = validated_request.client_info
+        
+        # Generate DXF using existing engine
+        generator = DXFGenerator()
+        dxf_path, processing_summary = generator.generate_from_instructions(dxf_instructions)
+        
+        # Add template info to summary
+        processing_summary.template_info = {
+            "template_name": validated_request.template_name,
+            "customization_applied": validated_request.customization,
+            "template_description": base_template.get("description", ""),
+            "validation_warnings": validation_result.get("warnings", [])
+        }
+        
+        # Check if client wants detailed summary instead of file
+        if validated_request.return_summary:
+            temp_file_manager.cleanup_file(dxf_path)
+            summary_dict = processing_summary.to_dict()
+            summary_dict["template_info"] = processing_summary.template_info
+            return res.json(summary_dict, 200)
+        
+        # Return DXF file with template processing info in headers
+        file_size = os.path.getsize(dxf_path)
+        
+        try:
+            with open(dxf_path, "rb") as f:
+                file_content = f.read()
+            
+            temp_file_manager.cleanup_file(dxf_path)
+            
+            headers = {
+                "Content-Type": "application/dxf",
+                "Content-Disposition": f'attachment; filename="kitchen_{validated_request.template_name}_{uuid.uuid4().hex[:8]}.dxf"',
+                "X-Processing-Summary": json.dumps(processing_summary.to_dict()),
+                "X-Template-Info": json.dumps(processing_summary.template_info)
+            }
+            
+            logger.info(f"Template DXF generated successfully: {file_size} bytes using '{validated_request.template_name}' template")
+            return res.send(file_content, 200, headers)
+            
+        except Exception as e:
+            temp_file_manager.cleanup_file(dxf_path)
+            raise e
+            
+    except Exception as e:
+        logger.error(f"Template processing error: {e}", exc_info=True)
+        return res.json({"error": f"Template processing failed: {str(e)}"}, 500)
+
+def handle_legacy_semantic_request(req: Any, res: Any) -> Any:
+    """
+    Handle legacy semantic requests by converting to template-based approach.
+    
+    Args:
+        req: Request object from Appwrite
+        res: Response object from Appwrite
+        
+    Returns:
+        Binary DXF file or JSON response
+    """
+    if KitchenTemplateEngine is None:
+        return res.json({"error": "Template engine not available"}, 503)
+    
+    try:
+        body = json.loads(req.body_raw)
+        logger.info("Legacy semantic request received - converting to template-based")
+        
+        # Validate legacy request
+        try:
+            validated_request = LegacySemanticRequestModel(**body)
+        except PydanticValidationError as ve:
+            logger.warning(f"Legacy semantic validation failed: {ve.errors()}")
+            return res.json({"error": f"Invalid request format: {ve.errors()}"}, 400)
+        
+        # Initialize template engine
+        engine = KitchenTemplateEngine()
+        
+        # Translate German terms if present
+        description = engine.translate_german_terms(validated_request.description)
+        
+        # Simple rule-based template selection (replaces semantic parsing)
+        template_name = "modern_l_shaped"  # Default
+        customization = {}
+        
+        # Extract dimensions using simple pattern matching
+        import re
+        dim_match = re.search(r'(\d+(?:\.\d+)?)x(\d+(?:\.\d+)?)', description.lower())
+        if dim_match:
+            width = float(dim_match.group(1)) * 1000  # Convert to mm
+            height = float(dim_match.group(2)) * 1000
+            customization["dimensions"] = [int(width), int(height)]
+            
+            # Select template based on size
+            area = width * height / 1000000  # m²
+            if area < 8:
+                template_name = "compact_galley"
+            elif area > 20:
+                template_name = "u_shaped_luxury"
+        
+        # Extract style
+        if "traditional" in description.lower() or "country" in description.lower():
+            customization["style"] = "traditional"
+            if template_name == "modern_l_shaped":
+                template_name = "traditional_country"
+        elif "open" in description.lower():
+            template_name = "open_plan_modern"
+        
+        # Extract appliances
+        appliances = []
+        if "island" in description.lower():
+            appliances.append("island")
+        if "dishwasher" in description.lower():
+            appliances.append("dishwasher")
+        if appliances:
+            customization["appliances"] = appliances
+        
+        # Convert to template request
+        template_request = {
+            "template_name": template_name,
+            "customization": customization,
+            "return_summary": validated_request.return_summary,
+            "client_info": validated_request.client_info or {"legacy_semantic": True}
+        }
+        
+        # Create mock request object for template handler
+        class MockRequest:
+            def __init__(self, body_data):
+                self.body_raw = json.dumps(body_data)
+        
+        mock_req = MockRequest(template_request)
+        
+        # Process using template handler
+        logger.info(f"Converted legacy semantic to template: {template_name} with customization: {customization}")
+        return handle_template_request(mock_req, res)
+        
+    except Exception as e:
+        logger.error(f"Legacy semantic processing error: {e}", exc_info=True)
+        return res.json({"error": f"Legacy semantic processing failed: {str(e)}"}, 500)
+
 def main(context: Any) -> Any:
     """
-    Main Appwrite function handler for DXF generation.
+    Main Appwrite function handler supporting multiple generation modes.
     
-    Accepts POST requests with JSON containing layers and figures,
-    generates a DXF file, and returns it as a binary response.
+    Routes:
+    - Default: Traditional DXF generation from structured JSON
+    - Template-based: Agent Zero kitchen template generation
+    - Legacy: Backward compatibility for semantic requests
     
     Args:
         context: Appwrite function context containing request and response objects
@@ -1608,9 +1842,46 @@ def main(context: Any) -> Any:
     req = context.req
     res = context.res
 
+    # Simple routing based on request content
     try:
         body = json.loads(req.body_raw)
-        logger.info("DXF generation request received")
+        
+        # Check for template-based request (has 'template_name' field)
+        if "template_name" in body and isinstance(body["template_name"], str):
+            logger.info("Routing to template-based generation")
+            return handle_template_request(req, res)
+        
+        # Check for legacy semantic request (has 'description' field)
+        elif "description" in body and isinstance(body["description"], str):
+            logger.info("Routing to legacy semantic endpoint")
+            return handle_legacy_semantic_request(req, res)
+        
+        # Traditional DXF generation
+        else:
+            logger.info("Routing to traditional DXF generation")
+            return handle_traditional_dxf_request(req, res, body)
+        
+    except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON in request: {e}")
+        return res.json({"error": "Invalid JSON format"}, 400)
+    except Exception as e:
+        logger.error(f"Unexpected routing error: {e}", exc_info=True)
+        return res.json({"error": "Internal server error"}, 500)
+
+def handle_traditional_dxf_request(req: Any, res: Any, body: Dict[str, Any]) -> Any:
+    """
+    Handle traditional DXF generation from structured JSON.
+    
+    Args:
+        req: Request object
+        res: Response object  
+        body: Parsed JSON body
+        
+    Returns:
+        Binary DXF file or JSON response
+    """
+    try:
+        logger.info("Traditional DXF generation request received")
         logger.debug(f"Request body: {json.dumps(body, indent=2)}")
 
         # Step 4: Apply request validation middleware
