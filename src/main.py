@@ -13,22 +13,23 @@ from datetime import datetime
 import tempfile
 import atexit
 
-# Import template engine for Agent Zero integration
-try:
-    from kitchen_template_engine import KitchenTemplateEngine
-except ImportError:
-    logger.warning("Template engine not available - Agent Zero features will be disabled")
-    KitchenTemplateEngine = None
-
 TMP_DIR = "/tmp"
 
-# Configure structured logging
+# Configure structured logging FIRST before any imports that might use it
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[logging.StreamHandler()]
 )
 logger = logging.getLogger(__name__)
+
+# Import template engine for Agent Zero integration AFTER logger is set up
+try:
+    from kitchen_template_engine import KitchenTemplateEngine
+    logger.info("Agent Zero template system loaded successfully")
+except ImportError:
+    logger.warning("Template engine not available - Agent Zero features will be disabled")
+    KitchenTemplateEngine = None
 
 # Custom Exceptions
 class DXFGenerationError(Exception):
@@ -380,6 +381,13 @@ class TemplateRequestModel(BaseModel):
 class LegacySemanticRequestModel(BaseModel):
     """Legacy request model for backward compatibility with semantic parsing."""
     description: str = Field(..., description="Natural language kitchen description (legacy)")
+    return_summary: Optional[bool] = Field(False, description="Return processing summary instead of DXF file")
+    client_info: Optional[Dict[str, Any]] = Field(None, description="Client information for logging")
+
+
+class EquipmentSpecificationModel(BaseModel):
+    """Request model for Agent Zero's equipment specification format."""
+    objects: List[Dict[str, Any]] = Field(..., description="List of kitchen equipment objects")
     return_summary: Optional[bool] = Field(False, description="Return processing summary instead of DXF file")
     client_info: Optional[Dict[str, Any]] = Field(None, description="Client information for logging")
 
@@ -1829,9 +1837,10 @@ def main(context: Any) -> Any:
     Main Appwrite function handler supporting multiple generation modes.
     
     Routes:
-    - Default: Traditional DXF generation from structured JSON
-    - Template-based: Agent Zero kitchen template generation
-    - Legacy: Backward compatibility for semantic requests
+    - Equipment specs: Agent Zero equipment specification (has 'objects' array)  
+    - Template-based: Agent Zero kitchen template generation (has 'template_name')
+    - Legacy semantic: Backward compatibility (has 'description')
+    - Traditional DXF: Structured DXF generation (default)
     
     Args:
         context: Appwrite function context containing request and response objects
@@ -1846,8 +1855,13 @@ def main(context: Any) -> Any:
     try:
         body = json.loads(req.body_raw)
         
+        # Check for Agent Zero equipment specification (has 'objects' array)
+        if "objects" in body and isinstance(body["objects"], list):
+            logger.info("Routing to Agent Zero equipment specification")
+            return handle_equipment_specification_request(req, res)
+        
         # Check for template-based request (has 'template_name' field)
-        if "template_name" in body and isinstance(body["template_name"], str):
+        elif "template_name" in body and isinstance(body["template_name"], str):
             logger.info("Routing to template-based generation")
             return handle_template_request(req, res)
         
@@ -1867,6 +1881,183 @@ def main(context: Any) -> Any:
     except Exception as e:
         logger.error(f"Unexpected routing error: {e}", exc_info=True)
         return res.json({"error": "Internal server error"}, 500)
+
+def handle_equipment_specification_request(req: Any, res: Any) -> Any:
+    """
+    Handle Agent Zero's equipment specification format.
+    Converts kitchen equipment list to professional CAD layout.
+    
+    Args:
+        req: Request object containing equipment specification
+        res: Response object
+        
+    Returns:
+        Binary DXF file or JSON response
+    """
+    try:
+        body = json.loads(req.body_raw)
+        logger.info(f"Equipment specification request with {len(body.get('objects', []))} objects")
+
+        # Validate using Pydantic model
+        try:
+            validated_request = EquipmentSpecificationModel(**body)
+        except PydanticValidationError as ve:
+            return res.json({"error": f"Invalid equipment specification: {ve.errors()}"}, 400)
+
+        # Convert equipment specification to DXF layout
+        dxf_data = convert_equipment_to_dxf(validated_request.objects)
+        
+        # Generate DXF using the enhanced class-based architecture
+        generator = DXFGenerator()
+        dxf_path, processing_summary = generator.generate_from_instructions(dxf_data)
+
+        # Check if client wants detailed summary instead of file
+        if validated_request.return_summary:
+            temp_file_manager.cleanup_file(dxf_path)
+            return res.json(processing_summary.to_dict(), 200)
+
+        # Return DXF file
+        file_size = os.path.getsize(dxf_path)
+        try:
+            with open(dxf_path, "rb") as f:
+                file_content = f.read()
+            
+            temp_file_manager.cleanup_file(dxf_path)
+            
+            headers = {
+                "Content-Type": "application/dxf",
+                "Content-Disposition": 'attachment; filename="kitchen_equipment_layout.dxf"',
+                "X-Processing-Summary": json.dumps(processing_summary.to_dict())
+            }
+            
+            logger.info(f"Equipment layout DXF generated successfully ({file_size} bytes)")
+            return res.send(file_content, 200, headers)
+            
+        except Exception as e:
+            temp_file_manager.cleanup_file(dxf_path)
+            raise e
+
+    except Exception as e:
+        logger.error(f"Equipment specification processing error: {e}", exc_info=True)
+        return res.json({"error": f"Equipment specification processing failed: {str(e)}"}, 500)
+
+
+def convert_equipment_to_dxf(objects: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Convert Agent Zero's equipment specification to DXF drawing instructions.
+    
+    Args:
+        objects: List of equipment objects with positions, dimensions, etc.
+        
+    Returns:
+        DXF instruction dictionary compatible with DXFGenerator
+    """
+    logger.info(f"Converting {len(objects)} equipment objects to DXF layout")
+    
+    # Create layers for different equipment types
+    layers = [
+        {"name": "EQUIPMENT", "color": 7},
+        {"name": "DIMENSIONS", "color": 3},
+        {"name": "TEXT", "color": 1},
+        {"name": "APPLIANCES", "color": 5},
+        {"name": "FURNITURE", "color": 4}
+    ]
+    
+    figures = []
+    current_x = 0
+    current_y = 0
+    row_height = 0
+    max_width = 8000  # Maximum row width in mm
+    
+    # Process each equipment object
+    for i, obj in enumerate(objects):
+        try:
+            # Extract dimensions (convert to mm if needed)
+            dims = obj.get("dimensions_mm", {})
+            width = dims.get("width", 1000)
+            depth = dims.get("depth", 600)  
+            height = dims.get("height", 900)
+            
+            # Determine equipment type and layer
+            name = obj.get("name", f"Item_{i+1}").upper()
+            layer = "APPLIANCES" if any(word in name for word in ["KÜHL", "TIEFKÜHL", "HERD", "OFEN", "SPÜL"]) else "FURNITURE"
+            
+            # Check if we need to start a new row
+            if current_x + width > max_width:
+                current_y += row_height + 1000  # 1m gap between rows
+                current_x = 0
+                row_height = 0
+            
+            # Add equipment rectangle
+            figures.append({
+                "type": "rectangle",
+                "layer": layer,
+                "points": [
+                    [current_x, current_y],
+                    [current_x + width, current_y],
+                    [current_x + width, current_y + depth],
+                    [current_x, current_y + depth]
+                ]
+            })
+            
+            # Add equipment label
+            label_text = f"{obj.get('position', f'{i+1:02d}')} - {name}"
+            if len(label_text) > 50:  # Truncate long labels
+                label_text = label_text[:47] + "..."
+                
+            figures.append({
+                "type": "text",
+                "layer": "TEXT",
+                "text": label_text,
+                "position": [current_x + width/2, current_y + depth/2],
+                "height": min(200, width/10),  # Scale text to equipment size
+            })
+            
+            # Add dimensions
+            figures.append({
+                "type": "dimension",
+                "layer": "DIMENSIONS",
+                "dimension_type": "linear",
+                "start": [current_x, current_y - 200],
+                "end": [current_x + width, current_y - 200],
+                "dimline_point": [current_x + width/2, current_y - 400],
+                "text_override": f"{width}mm"
+            })
+            
+            # Update position for next item
+            current_x += width + 500  # 0.5m gap between items
+            row_height = max(row_height, depth)
+            
+            logger.debug(f"Processed equipment {i+1}: {name} ({width}x{depth}mm)")
+            
+        except Exception as e:
+            logger.warning(f"Failed to process equipment object {i+1}: {e}")
+            # Add a placeholder rectangle for failed objects
+            figures.append({
+                "type": "rectangle", 
+                "layer": "EQUIPMENT",
+                "points": [[current_x, current_y], [current_x + 1000, current_y], [current_x + 1000, current_y + 600], [current_x, current_y + 600]]
+            })
+            current_x += 1500
+    
+    # Add title and metadata
+    figures.insert(0, {
+        "type": "text",
+        "layer": "TEXT",
+        "text": f"KITCHEN EQUIPMENT LAYOUT - {len(objects)} ITEMS",
+        "position": [max_width/2, current_y + row_height + 2000],
+        "height": 300,
+    })
+    
+    dxf_data = {
+        "layers": layers,
+        "figures": figures,
+        "blocks": []  # No blocks needed for equipment layout
+    }
+    
+    logger.info(f"Generated DXF layout with {len(figures)} entities")
+    return dxf_data
+
 
 def handle_traditional_dxf_request(req: Any, res: Any, body: Dict[str, Any]) -> Any:
     """

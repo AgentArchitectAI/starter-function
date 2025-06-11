@@ -1,0 +1,1107 @@
+{
+  "objects": [
+    {
+      "position": "01.01",
+      "name": "REGAL NORM 5",
+      "manufacturer": "Hupfer",
+      "model": "N5",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1400,
+        "depth": 500,
+        "height": 2000
+      },
+      "features": [
+        "Fabrikat: Hupfer",
+        "Typ: N5",
+        "Ausführung:",
+        "Feldlast: max. 600 kg",
+        "Blechrostauflagen",
+        "Material: CNS 1.4301",
+        "SCHRANKTISCHANLAGE",
+        "900mm Arbeitshöhe",
+        "Zur Aufstellung auf einem 150 mm hohen CNS –",
+        "Rohrrahmengestell mit Sockelblende.",
+        "Ausführung von links nach rechts."
+      ]
+    },
+    {
+      "position": "01.02",
+      "name": "TISCHPLATTE",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 3630,
+        "depth": 700,
+        "height": 50
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Arbeitsplatte durchgehend verschweißt.",
+        "Materialstärke 2mm.",
+        "Wandseitig aufgekantet",
+        "Auf-/Abkantung: 50mm",
+        "Material: CNS 1.4301",
+        "4",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.03",
+      "name": "ARBEITSSCHRANK MIT SCHIEBETÜREN",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1295,
+        "depth": 625,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "ohne Arbeitsplatte",
+        "Schrankraum mit Zwischenboden,",
+        "Frontseitig Schiebetüren.",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.04",
+      "name": "ARBEITSSCHRANK MIT SCHIEBETÜREN",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1295,
+        "depth": 625,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "ohne Arbeitsplatte",
+        "Schrankraum mit Zwischenboden,",
+        "Frontseitig Schiebetüren.",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.05",
+      "name": "WANDHÄNGESCHRANK",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1305,
+        "depth": 400,
+        "height": 650
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Schrankraum mit Zwischenboden.",
+        "Frontseitig Schiebetüren",
+        "Material: CNS 1.4301",
+        "5",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.06",
+      "name": "WANDHÄNGESCHRANK",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1305,
+        "depth": 400,
+        "height": 650
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Schrankraum mit Zwischenboden.",
+        "Frontseitig Schiebetüren",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.07",
+      "name": "SPÜLENSCHRANK",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 600,
+        "depth": 620,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Schrankraum mit Flügeltür",
+        "In der Rückwand ein Ausschnitt für Installationen.",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.08",
+      "name": "EINSCHWEISSBECKEN",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 500,
+        "depth": 400,
+        "height": 250
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Becken: 500 x 400 x 250 mm mit Standrohrventil,",
+        "vertieft mit Profilrand in die Tischplatte",
+        "eingeschweißt und sauber verschliffen.",
+        "Material: CNS 1.4301",
+        "6",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.09",
+      "name": "ZWEIGRIFF-STANDARMATUR 3/4“",
+      "manufacturer": "Echtermann",
+      "model": "225-101/300-220",
+      "material": "Edelstahl",
+      "features": [
+        "Fabrikat: Echtermann",
+        "Typ: 225-101/300-220",
+        "Ausführung:",
+        "Wärmeisolierte Haubengriffe",
+        "Schwenkbarer HU-Auslauf mit JetSafe (Tropfschutz)",
+        "Material: Edelstahl"
+      ]
+    },
+    {
+      "position": "01.10",
+      "name": "SCHUBLADENBLOCK GN 1/1",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 400,
+        "depth": 620,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "ohne Arbeitsplatte",
+        "Schrankraum mit vier Kastenschubladen.",
+        "4 x GN1/1-100",
+        "Inklusive GN-Behälter",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.11",
+      "name": "REGAL NORM 5",
+      "manufacturer": "Hupfer",
+      "model": "N5",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1000,
+        "depth": 600,
+        "height": 2000
+      },
+      "features": [
+        "Fabrikat: Hupfer",
+        "Typ: N5",
+        "Ausführung:",
+        "Feldlast: max. 600 kg",
+        "Blechrostauflagen",
+        "Material: CNS 1.4301",
+        "7",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.12",
+      "name": "TIEFKÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "TKU 702 Comfort",
+      "dimensions_mm": {
+        "width": 710,
+        "depth": 835,
+        "height": 2050
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: TKU 702 Comfort",
+        "Ausführung:",
+        "Gewerbetiefkühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "Temperaturbereich: -15°C bis -22°C",
+        "Kälteleistung:",
+        "322 Watt -30°C",
+        "Kältemittel:",
+        "R-290",
+        "Anschlusswert:",
+        "510 W / 230 V"
+      ]
+    },
+    {
+      "position": "01.13",
+      "name": "TIEFKÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "TKU 702 Comfort",
+      "dimensions_mm": {
+        "width": 710,
+        "depth": 835,
+        "height": 2050
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: TKU 702 Comfort",
+        "Ausführung:",
+        "Gewerbetiefkühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "Temperaturbereich: -15°C bis -22°C",
+        "Kälteleistung:",
+        "322 Watt -30°C",
+        "Kältemittel:",
+        "R-290",
+        "Anschlusswert:",
+        "510 W / 230 V"
+      ]
+    },
+    {
+      "position": "01.14",
+      "name": "KÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "GKM 700 ECO",
+      "dimensions_mm": {
+        "width": 700,
+        "depth": 840,
+        "height": 2080
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: GKM 700 ECO",
+        "Ausführung:",
+        "Gewerbekühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "8",
+        "Positionen",
+        "Temperaturbereich:",
+        "Kälteleistung:",
+        "Kältemittel:",
+        "Anschlusswert:",
+        "+2°C bis +8°C",
+        "294 Watt -10°C",
+        "R-290",
+        "295 W / 230 V"
+      ]
+    },
+    {
+      "position": "01.15",
+      "name": "KÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "GKM 700 ECO",
+      "dimensions_mm": {
+        "width": 700,
+        "depth": 840,
+        "height": 2080
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: GKM 700 ECO",
+        "Ausführung:",
+        "Gewerbekühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "Temperaturbereich: +2°C bis +8°C",
+        "Kälteleistung:",
+        "294 Watt -10°C",
+        "Kältemittel:",
+        "R-290",
+        "Anschlusswert:",
+        "295 W / 230 V"
+      ]
+    },
+    {
+      "position": "01.16",
+      "name": "KÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "GKM 700 ECO",
+      "dimensions_mm": {
+        "width": 700,
+        "depth": 840,
+        "height": 2080
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: GKM 700 ECO",
+        "Ausführung:",
+        "Gewerbekühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "Temperaturbereich: +2°C bis +8°C",
+        "Kälteleistung:",
+        "294 Watt -10°C",
+        "Kältemittel:",
+        "R-290",
+        "Anschlusswert:",
+        "295 W / 230 V",
+        "9",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.17",
+      "name": "GESCHIRR- HOCHSCHRANK",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1500,
+        "depth": 800,
+        "height": 2080
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Zwei Schrankräume übereinander",
+        "Frontseitig offen",
+        "Mit untergebautem Rohrahmengestell.",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.18",
+      "name": "HANDWASCHBECKEN",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 400,
+        "depth": 900,
+        "height": 50
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Becken: 340 x 230 x 130 mm",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.19",
+      "name": "ARBEITSCHRANK MIT FLÜGELTÜR",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 400,
+        "depth": 620,
+        "height": 700
+      },
+      "features": [
+        "UND EINWURFKLAPPE",
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Schrankraum mit Flügeltür und Einwurfklappe",
+        "Material: CNS 1.4301",
+        "10",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.20",
+      "name": "SENSOR WASCHTISCHARMATUR",
+      "manufacturer": "Echtermann",
+      "model": "2314.20",
+      "material": "Chrom",
+      "features": [
+        "Fabrikat: Echtermann",
+        "Typ: 2314.20",
+        "Ausführung:",
+        "Berührungslose, elektronisch gesteuerte",
+        "Waschtischarmatur.",
+        "Steckernetzgerät 230V",
+        "Material: Chrom"
+      ]
+    },
+    {
+      "position": "01.21",
+      "name": "bauseits",
+      "features": [
+        "SEIFEN- UND",
+        "DESINFEKTIONSMITTELSPENDER"
+      ]
+    },
+    {
+      "position": "01.22",
+      "name": "bauseits",
+      "features": [
+        "SEIFEN- UND",
+        "DESINFEKTIONSMITTELSPENDER"
+      ]
+    },
+    {
+      "position": "01.23",
+      "name": "bauseits",
+      "features": [
+        "HANDTUCHSPENDER MIT SCHLOSS"
+      ]
+    },
+    {
+      "position": "01.24",
+      "name": "bauseits",
+      "features": [
+        "PAPIERKORB",
+        "11",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.25",
+      "name": "SPRITZSCHUTZ",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "dimensions_mm": {
+        "width": 8,
+        "depth": 650,
+        "height": 400
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "ESG-Sicherheitsglas mit Edelstahl",
+        "Glashaltern."
+      ]
+    },
+    {
+      "position": "01.26",
+      "name": "TISCHELEMENT 400",
+      "manufacturer": "Locher",
+      "model": "207902",
+      "dimensions_mm": {
+        "width": 400,
+        "depth": 700,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Locher",
+        "Typ: 207902",
+        "Ausführung:",
+        "Tischelement 400 mit Kastenschublade",
+        "Abdeckung hinten 20 mm aufgekantet",
+        "Mit flächenbündigem Verbindungssystem Haarfuge.",
+        "Unterbau 3-seitig geschlossen, vorn offen."
+      ]
+    },
+    {
+      "position": "01.27",
+      "name": "ZWEIGRIFF-WANDARMATUR 3/4“",
+      "manufacturer": "Echtermann",
+      "model": "226-213/350-145",
+      "material": "Edelstahl",
+      "features": [
+        "Fabrikat: Echtermann",
+        "Typ: 226-213/350-145",
+        "Ausführung:",
+        "Wärmeisolierte Haubengriffe",
+        "Schwenkbarer flacher-Auslauf mit JetSafe",
+        "(Tropfschutz)",
+        "Material: Edelstahl",
+        "12",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.28",
+      "name": "ELEKTROHERD, 4 KOCHSTELLEN",
+      "manufacturer": "Locher",
+      "model": "290310",
+      "dimensions_mm": {
+        "width": 800,
+        "depth": 900,
+        "height": 700
+      },
+      "features": [
+        "UND BACKOFEN",
+        "Fabrikat: Locher",
+        "Typ: 290310",
+        "Ausführung:",
+        "Abdeckung hinten 20 mm aufgekantet und mit",
+        "flächenbündigem Verbindungssystem Haarfuge.",
+        "Ceranglas flächenbündig eingesetzt, Brat- und",
+        "Backofen GN 1 1/1+ mit Umluft:",
+        "Im Lieferumfang enthalten:",
+        "Anschlusswert: 21,6 kW / 400 V"
+      ]
+    },
+    {
+      "position": "01.29",
+      "name": "MULTIBRÄTER GN 2/1 MIT KLAPPDECKEL",
+      "manufacturer": "Locher",
+      "model": "227480",
+      "dimensions_mm": {
+        "width": 700,
+        "depth": 700,
+        "height": 850
+      },
+      "features": [
+        "Fabrikat: Locher",
+        "Typ: 227480",
+        "Ausführung:",
+        "Abdeckung hinten 20 mm aufgekantet und mit",
+        "flächenbündigem Verbindungssystem Haarfuge.",
+        "Bratfläche aus Spezialstahl",
+        "Unterbau 3-seitig geschlossen, mit Auffangbehälter",
+        "GN 1/1-200 in Schublade ausziehbar",
+        "Anschlusswert: 400 V / 9,0 kW"
+      ]
+    },
+    {
+      "position": "01.30",
+      "name": "KOCHKESSEL",
+      "manufacturer": "Locher",
+      "model": "227681",
+      "dimensions_mm": {
+        "width": 700,
+        "depth": 700,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Locher",
+        "Typ: 227681",
+        "Ausführung:",
+        "13",
+        "Positionen",
+        "Abdeckung hinten 20 mm aufgekantet und mit",
+        "flächenbündigem Verbindungssystem Haarfuge.",
+        "Unterbau geschlossen mit abnehmbarer",
+        "Revisionsblende.",
+        "Innenkessel aus Chrom-Nickel-Stahl (1.4571)",
+        "Indirekt beheizbarer.",
+        "Anschlusswert: 18,0 kW / 400 V"
+      ]
+    },
+    {
+      "position": "01.31",
+      "name": "TISCHELEMENT 400",
+      "manufacturer": "Locher",
+      "model": "207902",
+      "dimensions_mm": {
+        "width": 400,
+        "depth": 700,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Locher",
+        "Typ: 207902",
+        "Ausführung:",
+        "Tischelement 400 mit Kastenschublade",
+        "Abdeckung hinten 20 mm aufgekantet",
+        "Mit flächenbündigem Verbindungssystem Haarfuge.",
+        "Unterbau 3-seitig geschlossen, vorn offen."
+      ]
+    },
+    {
+      "position": "01.32",
+      "name": "WANDANSCHLUSSBLENDE",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1800,
+        "depth": 200,
+        "height": 50
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Wandanschlussblende hinten 20 mm aufgekantet.",
+        "Zum Einbau zwischen Geräten und Wand.",
+        "Material: CNS 1.4301",
+        "14",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.33",
+      "name": "DUNSTABZUGSHAUBE ALS WANDHAUBE",
+      "manufacturer": "ELKABO",
+      "model": "WH",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 2600,
+        "depth": 1300,
+        "height": 500
+      },
+      "features": [
+        "Fabrikat: ELKABO",
+        "Typ: WH",
+        "Ausführung:",
+        "Wandhaube mit 1 Filterreihe",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.34",
+      "name": "COMBI-DÄMPFER-10 X GN1/1",
+      "manufacturer": "Rational",
+      "model": "iCombi® Pro 10-1/1 E",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 850,
+        "depth": 842,
+        "height": 1014
+      },
+      "features": [
+        "Fabrikat: Rational",
+        "Typ: iCombi® Pro 10-1/1 E",
+        "Ausführung:",
+        "Combi-Dämpfer für die meisten in der gewerblichen",
+        "Küche angewendeten Garverfahren. Zum Einsatz von",
+        "Dampf und Heißluft",
+        "10 Längseinschübe für 1/1 GN",
+        "Einhängegestelle mit 68 mm Einschubabstand",
+        "Für die Verwendung mit 1/1, 1/2, 2/3, 1/3 GN-Zubehör",
+        "Technische Spezifikation,",
+        "Wasserzulauf (Druckschlauch):",
+        "3/4'' / d 1/2''",
+        "Wasserablauf:",
+        "DN 50 mm",
+        "Anschlusswert Elektro:",
+        "19 kW",
+        "Kabelquerschnitt",
+        "3 NAC 400V 50/60Hz",
+        "3x32 A 5 x 2,5 mm²",
+        "Material: CNS 1.4301",
+        "15",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.35",
+      "name": "KONDENSATIONSHAUBE ULTRAVENT",
+      "manufacturer": "Rational",
+      "model": "UltraVent",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 854,
+        "depth": 885,
+        "height": 310
+      },
+      "features": [
+        "Fabrikat: Rational",
+        "Typ: UltraVent",
+        "Ausführung:",
+        "Durch die Kondensationstechnologie der Umlufthaube",
+        "werden austretende Dämpfe gebunden und abgeleitet.",
+        "Anschluss: 230V / 0,18KW",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.36",
+      "name": "UNTERGESTELL",
+      "model": "Rational",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 860,
+        "depth": 703,
+        "height": 699
+      },
+      "features": [
+        "Typ: Rational",
+        "Modell: UG III",
+        "Ausführung:",
+        "mit 20 Paar Auflageschienen GN.",
+        "Frontseitig offen",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.37",
+      "name": "COMBI-DÄMPFER-10 X GN1/1",
+      "manufacturer": "Rational",
+      "model": "iCombi® Pro 10-1/1 E",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 850,
+        "depth": 842,
+        "height": 1014
+      },
+      "features": [
+        "Fabrikat: Rational",
+        "Typ: iCombi® Pro 10-1/1 E",
+        "Ausführung:",
+        "Combi-Dämpfer für die meisten in der gewerblichen",
+        "Küche angewendeten Garverfahren. Zum Einsatz von",
+        "Dampf und Heißluft",
+        "10 Längseinschübe für 1/1 GN",
+        "Einhängegestelle mit 68 mm Einschubabstand",
+        "16",
+        "Positionen",
+        "Für die Verwendung mit 1/1, 1/2, 2/3, 1/3 GN-Zubehör",
+        "Technische Spezifikation,",
+        "Wasserzulauf (Druckschlauch):",
+        "3/4'' / d 1/2''",
+        "Wasserablauf:",
+        "DN 50 mm",
+        "Anschlusswert Elektro:",
+        "19 kW",
+        "Kabelquerschnitt",
+        "3 NAC 400V 50/60Hz",
+        "3x32 A 5 x 2,5 mm²",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.38",
+      "name": "KONDENSATIONSHAUBE ULTRAVENT",
+      "manufacturer": "Rational",
+      "model": "UltraVent",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 854,
+        "depth": 885,
+        "height": 310
+      },
+      "features": [
+        "Fabrikat: Rational",
+        "Typ: UltraVent",
+        "Ausführung:",
+        "Durch die Kondensationstechnologie der Umlufthaube",
+        "werden austretende Dämpfe gebunden und abgeleitet.",
+        "Anschluss: 230V / 0,18KW",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.39",
+      "name": "UNTERGESTELL",
+      "model": "Rational",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 860,
+        "depth": 703,
+        "height": 699
+      },
+      "features": [
+        "Typ: Rational",
+        "Modell: UG III",
+        "Ausführung:",
+        "mit 20 Paar Auflageschienen GN.",
+        "Frontseitig offen",
+        "Material: CNS 1.4301",
+        "17",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.40",
+      "name": "ZWEIGRIFF-WANDAMATUR ¾”",
+      "manufacturer": "Echtermann",
+      "model": "226-204/000-155/019",
+      "material": "Edelstahl",
+      "features": [
+        "Fabrikat: Echtermann",
+        "Typ: 226-204/000-155/019",
+        "Ausführung:",
+        "Hochdruck 1-6 bar",
+        "Keramikoberteil",
+        "Schlauchtülle für DN 19, Schlauchgröße G 3/4\"",
+        "Material: Edelstahl"
+      ]
+    },
+    {
+      "position": "01.41",
+      "name": "SPÜLTISCHABDECKUNG MIT",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1500,
+        "depth": 700,
+        "height": 50
+      },
+      "features": [
+        "ABTROPFFLÄCHE",
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Die Abdeckung dreiseitig 50 mm ab",
+        "und Rückseitig 50 mm aufgekantet.",
+        "Geprägte Rillenfläche mit Gefälle zum Becken",
+        "Inkl. Ablaufverbindung und Standrohrventil",
+        "1 Becken: links, 600 x 500 x 300mm",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.42",
+      "name": "SPÜLTISCH",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 750,
+        "depth": 700,
+        "height": 850
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Rahmengestell aus CNS-Vierkantrohr",
+        "mit Beckenblende und Grundboden.",
+        "Material: CNS 1.4301",
+        "18",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.43",
+      "name": "GESCHIRSPÜLRBRAUSE CLASSIC CLEAN ½“",
+      "manufacturer": "Echtermann",
+      "model": "325-201 /220-285",
+      "material": "Edelstahl",
+      "features": [
+        "Fabrikat: Echtermann",
+        "Typ: 325-201 /220-285",
+        "Ausführung:",
+        "Zweigriff-Standbatterie ½“ auf Säule mit",
+        "Schwenkventil",
+        "Material: Edelstahl"
+      ]
+    },
+    {
+      "position": "01.44",
+      "name": "UNVERSALSPÜLMASCHINE",
+      "manufacturer": "Hobart",
+      "model": "Profi UX- 10A",
+      "dimensions_mm": {
+        "width": 780,
+        "depth": 945,
+        "height": 1984
+      },
+      "features": [
+        "Fabrikat: Hobart",
+        "Typ: Profi UX- 10A",
+        "Ausführung:",
+        "Fronttürmaschine",
+        "Anschlusswert: 15,9 kW / 400 V"
+      ]
+    },
+    {
+      "position": "01.45",
+      "name": "GESCHIRRSPÜLMASCHINE",
+      "manufacturer": "Hobart",
+      "model": "Ecomax-F504S-12B",
+      "dimensions_mm": {
+        "width": 576,
+        "depth": 604,
+        "height": 820
+      },
+      "features": [
+        "Fabrikat: Hobart",
+        "Typ: Ecomax-F504S-12B",
+        "Ausführung:",
+        "Untertischausführung",
+        "Anschlusswert: 5,9 kW / 400 V",
+        "19",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "01.46",
+      "name": "ARBEITSTISCH",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 3630,
+        "depth": 1000,
+        "height": 900
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Arbeitsplatte 2mm",
+        "Abkantung: 50mm mit CNS-Verstärkungsprofilen",
+        "unterfüttert, schallgedämmt.",
+        "Ausführung: Rahmengestell aus CNS-Vierkantrohr",
+        "mit Grundboden.",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.47",
+      "name": "TISCHPLATTE",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 690,
+        "depth": 700,
+        "height": 50
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Arbeitsplatte durchgehend verschweißt.",
+        "Materialstärke 2mm.",
+        "Wandseitig aufgekantet",
+        "Auf-/Abkantung: 50mm",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "01.48",
+      "name": "ARBEITSSCHRANK MIT FLÜGELTÜR",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 650,
+        "depth": 550,
+        "height": 700
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "ohne Arbeitsplatte",
+        "Schrankraum mit Zwischenboden.",
+        "20",
+        "Positionen",
+        "Frontseitig Flügeltür.",
+        "Material: CNS 1.4301",
+        "Positionen",
+        "21",
+        "Titel 02 / Lager",
+        "Positionen"
+      ]
+    },
+    {
+      "position": "02.01",
+      "name": "REGAL NORM 5",
+      "manufacturer": "Hupfer",
+      "model": "N5",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 5125,
+        "depth": 600,
+        "height": 2000
+      },
+      "features": [
+        "Fabrikat: Hupfer",
+        "Typ: N5",
+        "Ausführung:",
+        "Feldlast: max. 600 kg",
+        "Blechrostauflagen",
+        "Material: CNS 1.4301"
+      ]
+    },
+    {
+      "position": "02.02",
+      "name": "TIEFKÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "TKU 702 Comfort",
+      "dimensions_mm": {
+        "width": 710,
+        "depth": 835,
+        "height": 2050
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: TKU 702 Comfort",
+        "Ausführung:",
+        "Gewerbetiefkühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "Temperaturbereich: -15°C bis -22°C",
+        "Kälteleistung:",
+        "322 Watt -30°C",
+        "Kältemittel:",
+        "R-290",
+        "Anschlusswert:",
+        "510 W / 230 V"
+      ]
+    },
+    {
+      "position": "02.03",
+      "name": "KÜHLSCHRANK",
+      "manufacturer": "NordCap",
+      "model": "GKM 700 ECO",
+      "dimensions_mm": {
+        "width": 700,
+        "depth": 840,
+        "height": 2080
+      },
+      "features": [
+        "Fabrikat: NordCap",
+        "Typ: GKM 700 ECO",
+        "Ausführung:",
+        "Gewerbekühlschrank für GN 2/1, eintürig,",
+        "steckerfertig.",
+        "Temperaturbereich: +2°C bis +8°C",
+        "22",
+        "Positionen",
+        "Kälteleistung:",
+        "Kältemittel:",
+        "Anschlusswert:",
+        "294 Watt -10°C",
+        "R-290",
+        "295 W / 230 V"
+      ]
+    },
+    {
+      "position": "02.04",
+      "name": "ARBEITSTISCH, FAHRBAR",
+      "manufacturer": "Birkenstahl",
+      "model": "SON",
+      "material": "CNS 1.4301",
+      "dimensions_mm": {
+        "width": 1200,
+        "depth": 700,
+        "height": 900
+      },
+      "features": [
+        "Fabrikat: Birkenstahl",
+        "Typ: SON",
+        "Ausführung:",
+        "Arbeitsplatte 2mm",
+        "Abkantung: 50mm",
+        "Ausführung: Rahmengestell mit Grundboden.",
+        "4 Lenkrollen mit CNS Gehäuse, davon 2 mit",
+        "Feststellern,",
+        "Durchmesser: 125 mm.",
+        "Material: CNS 1.4301",
+        "Positionen",
+        "23",
+        "Titel 03/ Planungen und Montagen",
+        "Positionen"
+      ]
+    }
+  ]
+}
