@@ -1,0 +1,171 @@
+{
+  "template_name": "u_shaped_luxury",
+  "description": "Luxury U-shaped kitchen design for large spaces with premium appliances and ample storage",
+  "parameters": {
+    "min_dimensions": [4000, 3500],
+    "recommended_dimensions": [5000, 4000],
+    "max_dimensions": [8000, 6000],
+    "style": "luxury",
+    "layout_type": "u_shaped"
+  },
+  "appliances_included": ["island", "sink", "stove", "refrigerator", "dishwasher", "oven", "wine_cooler", "pantry"],
+  "customization_options": {
+    "island_size": ["large", "extra_large"],
+    "counter_material": ["granite", "quartz", "marble", "butcher_block"],
+    "cabinet_style": ["shaker", "raised_panel", "custom"],
+    "color_scheme": ["white", "dark_wood", "two_tone", "custom"],
+    "luxury_features": ["wine_storage", "coffee_station", "butler_pantry", "breakfast_nook"]
+  },
+  "dxf_template": {
+    "layers": [
+      {"name": "Walls", "color": 7, "description": "Room boundary walls"},
+      {"name": "Cabinets", "color": 3, "description": "Kitchen cabinets and storage"},
+      {"name": "Appliances", "color": 5, "description": "Major appliances and fixtures"},
+      {"name": "Island", "color": 6, "description": "Kitchen island structure"},
+      {"name": "Luxury_Features", "color": 4, "description": "Premium features and details"},
+      {"name": "Dimensions", "color": 2, "description": "Measurement annotations"},
+      {"name": "Text", "color": 1, "description": "Labels and annotations"}
+    ],
+    "figures": [
+      {
+        "type": "rectangle",
+        "layer": "Walls",
+        "coordinates": [[0, 0], [5000, 4000]],
+        "description": "Room perimeter",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle", 
+        "layer": "Cabinets",
+        "coordinates": [[100, 100], [2200, 700]],
+        "description": "U-shaped cabinet section 1 (bottom)",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Cabinets", 
+        "coordinates": [[100, 100], [700, 3300]],
+        "description": "U-shaped cabinet section 2 (left)",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Cabinets", 
+        "coordinates": [[4300, 100], [4900, 3300]],
+        "description": "U-shaped cabinet section 3 (right)",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Island",
+        "coordinates": [[2000, 1800], [3000, 2800]],
+        "description": "Large central kitchen island",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[300, 300], [600, 700]],
+        "description": "Built-in refrigerator",
+        "appliance_type": "refrigerator",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances", 
+        "coordinates": [[800, 300], [1200, 700]],
+        "description": "Professional range",
+        "appliance_type": "stove",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[1400, 300], [1800, 700]],
+        "description": "Built-in dishwasher",
+        "appliance_type": "dishwasher", 
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[4400, 300], [4800, 700]],
+        "description": "Wall oven",
+        "appliance_type": "oven",
+        "customizable": true
+      },
+      {
+        "type": "circle",
+        "layer": "Appliances",
+        "coordinates": [2500, 2300],
+        "radius": 200,
+        "description": "Island prep sink",
+        "appliance_type": "sink",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Luxury_Features",
+        "coordinates": [[4400, 1000], [4800, 1600]],
+        "description": "Wine cooler",
+        "appliance_type": "wine_cooler",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Luxury_Features",
+        "coordinates": [[300, 3000], [700, 3400]],
+        "description": "Butler's pantry entrance",
+        "appliance_type": "pantry",
+        "customizable": true
+      },
+      {
+        "type": "text",
+        "layer": "Text",
+        "coordinates": [2500, 600],
+        "content": "Luxury U-Shaped Kitchen",
+        "height": 120,
+        "description": "Title"
+      }
+    ]
+  },
+  "workflow_zones": {
+    "cooking_zone": {
+      "center": [1000, 500],
+      "radius": 900,
+      "appliances": ["stove", "oven"]
+    },
+    "prep_zone": {
+      "center": [2500, 2300], 
+      "radius": 800,
+      "appliances": ["island", "sink"]
+    },
+    "cleaning_zone": {
+      "center": [1600, 500],
+      "radius": 600,
+      "appliances": ["dishwasher", "sink"]
+    },
+    "storage_zone": {
+      "center": [500, 500],
+      "radius": 500,
+      "appliances": ["refrigerator", "pantry"]
+    },
+    "luxury_zone": {
+      "center": [4600, 1300],
+      "radius": 400,
+      "appliances": ["wine_cooler", "coffee_station"]
+    }
+  },
+  "luxury_features": {
+    "premium_materials": true,
+    "professional_appliances": true,
+    "ample_storage": true,
+    "entertainment_ready": true,
+    "accessibility_compliant": true
+  }
+} 

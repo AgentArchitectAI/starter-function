@@ -1,0 +1,191 @@
+{
+  "template_name": "traditional_country",
+  "description": "Classic farmhouse-style kitchen with traditional elements and warm, welcoming atmosphere",
+  "parameters": {
+    "min_dimensions": [3500, 3000],
+    "recommended_dimensions": [4500, 3500],
+    "max_dimensions": [6000, 4500],
+    "style": "traditional",
+    "layout_type": "country"
+  },
+  "appliances_included": ["farmhouse_sink", "stove", "refrigerator", "dishwasher", "pantry", "breakfast_nook"],
+  "customization_options": {
+    "cabinet_style": ["shaker", "raised_panel", "beadboard"],
+    "counter_material": ["butcher_block", "granite", "marble", "tile"],
+    "color_scheme": ["cream", "sage_green", "warm_white", "natural_wood"],
+    "traditional_features": ["farmhouse_sink", "open_shelving", "pot_rack", "spice_racks", "window_herb_garden"]
+  },
+  "dxf_template": {
+    "layers": [
+      {"name": "Walls", "color": 7, "description": "Room boundary walls"},
+      {"name": "Cabinets", "color": 30, "description": "Traditional kitchen cabinets"},
+      {"name": "Appliances", "color": 5, "description": "Country-style appliances"},
+      {"name": "Traditional_Features", "color": 32, "description": "Farmhouse elements"},
+      {"name": "Breakfast_Nook", "color": 33, "description": "Dining nook area"},
+      {"name": "Dimensions", "color": 2, "description": "Measurement annotations"},
+      {"name": "Text", "color": 1, "description": "Labels and annotations"}
+    ],
+    "figures": [
+      {
+        "type": "rectangle",
+        "layer": "Walls",
+        "coordinates": [[0, 0], [4500, 3500]],
+        "description": "Country kitchen perimeter",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle", 
+        "layer": "Cabinets",
+        "coordinates": [[100, 100], [2800, 700]],
+        "description": "Traditional base cabinets with shaker doors",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Cabinets", 
+        "coordinates": [[100, 100], [700, 2200]],
+        "description": "Corner cabinet with lazy susan",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Traditional_Features",
+        "coordinates": [[3000, 100], [3600, 700]],
+        "description": "Built-in pantry with traditional doors",
+        "appliance_type": "pantry",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[200, 200], [600, 700]],
+        "description": "Vintage-style refrigerator",
+        "appliance_type": "refrigerator",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances", 
+        "coordinates": [[900, 200], [1500, 700]],
+        "description": "Gas range with decorative hood",
+        "appliance_type": "stove",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Traditional_Features",
+        "coordinates": [[1700, 200], [2300, 700]],
+        "description": "Large farmhouse sink",
+        "appliance_type": "farmhouse_sink",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[2400, 200], [2700, 700]],
+        "description": "Dishwasher panel-matched to cabinets",
+        "appliance_type": "dishwasher", 
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Breakfast_Nook",
+        "coordinates": [[3700, 1500], [4400, 3400]],
+        "description": "Cozy breakfast nook with bench seating",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Traditional_Features",
+        "coordinates": [[800, 700], [1600, 900]],
+        "description": "Open shelving for display",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "circle",
+        "layer": "Traditional_Features",
+        "coordinates": [1200, 1200],
+        "radius": 100,
+        "description": "Hanging pot rack",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Traditional_Features",
+        "coordinates": [[2900, 1000], [4300, 1200]],
+        "description": "Window herb garden shelf",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "text",
+        "layer": "Text",
+        "coordinates": [2250, 1000],
+        "content": "Traditional Country Kitchen",
+        "height": 90,
+        "description": "Title"
+      },
+      {
+        "type": "text",
+        "layer": "Text",
+        "coordinates": [4000, 2000],
+        "content": "Breakfast Nook",
+        "height": 70,
+        "description": "Nook label"
+      }
+    ]
+  },
+  "workflow_zones": {
+    "cooking_zone": {
+      "center": [1200, 450],
+      "radius": 700,
+      "appliances": ["stove", "pot_rack"]
+    },
+    "prep_zone": {
+      "center": [2000, 450], 
+      "radius": 600,
+      "appliances": ["farmhouse_sink"]
+    },
+    "cleaning_zone": {
+      "center": [2550, 450],
+      "radius": 400,
+      "appliances": ["dishwasher", "farmhouse_sink"]
+    },
+    "storage_zone": {
+      "center": [400, 450],
+      "radius": 400,
+      "appliances": ["refrigerator"]
+    },
+    "pantry_zone": {
+      "center": [3300, 450],
+      "radius": 350,
+      "appliances": ["pantry"]
+    },
+    "dining_zone": {
+      "center": [4050, 2450],
+      "radius": 600,
+      "appliances": ["breakfast_nook"]
+    }
+  },
+  "traditional_elements": {
+    "natural_materials": true,
+    "handcrafted_details": true,
+    "warm_color_palette": true,
+    "functional_design": true,
+    "family_gathering_space": true
+  },
+  "farmhouse_features": {
+    "apron_front_sink": true,
+    "shaker_cabinet_doors": true,
+    "open_shelving_display": true,
+    "vintage_hardware": true,
+    "natural_wood_accents": true,
+    "cozy_breakfast_nook": true
+  }
+} 

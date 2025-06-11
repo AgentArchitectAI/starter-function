@@ -1,0 +1,173 @@
+{
+  "template_name": "open_plan_modern",
+  "description": "Modern open concept kitchen integrated with living/dining areas for contemporary lifestyle",
+  "parameters": {
+    "min_dimensions": [4500, 3000],
+    "recommended_dimensions": [6000, 4500],
+    "max_dimensions": [9000, 6000],
+    "style": "modern",
+    "layout_type": "open_plan"
+  },
+  "appliances_included": ["peninsula", "sink", "stove", "refrigerator", "dishwasher", "breakfast_bar"],
+  "customization_options": {
+    "peninsula_size": ["medium", "large", "extended"],
+    "counter_material": ["quartz", "granite", "concrete", "butcher_block"],
+    "cabinet_style": ["flat_panel", "handleless", "floating"],
+    "color_scheme": ["white", "gray", "black", "wood_accent"],
+    "open_features": ["breakfast_bar", "floating_shelves", "pendant_lighting", "bar_seating"]
+  },
+  "dxf_template": {
+    "layers": [
+      {"name": "Walls", "color": 7, "description": "Room boundary walls and partitions"},
+      {"name": "Cabinets", "color": 3, "description": "Kitchen cabinets and storage"},
+      {"name": "Appliances", "color": 5, "description": "Major appliances and fixtures"},
+      {"name": "Peninsula", "color": 6, "description": "Kitchen peninsula structure"},
+      {"name": "Living_Area", "color": 8, "description": "Connected living space elements"},
+      {"name": "Dimensions", "color": 2, "description": "Measurement annotations"},
+      {"name": "Text", "color": 1, "description": "Labels and annotations"}
+    ],
+    "figures": [
+      {
+        "type": "rectangle",
+        "layer": "Walls",
+        "coordinates": [[0, 0], [6000, 4500]],
+        "description": "Open plan space perimeter",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle", 
+        "layer": "Cabinets",
+        "coordinates": [[100, 100], [3500, 700]],
+        "description": "Linear kitchen cabinets",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Peninsula",
+        "coordinates": [[3500, 700], [4500, 1300]],
+        "description": "Kitchen peninsula with breakfast bar",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[200, 200], [600, 700]],
+        "description": "Panel-ready refrigerator",
+        "appliance_type": "refrigerator",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances", 
+        "coordinates": [[1000, 200], [1400, 700]],
+        "description": "Induction cooktop",
+        "appliance_type": "stove",
+        "customizable": true
+      },
+      {
+        "type": "circle",
+        "layer": "Appliances",
+        "coordinates": [2000, 400],
+        "radius": 150,
+        "description": "Undermount sink",
+        "appliance_type": "sink",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[2500, 200], [2900, 700]],
+        "description": "Integrated dishwasher",
+        "appliance_type": "dishwasher", 
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Living_Area",
+        "coordinates": [[1000, 2000], [5000, 4300]],
+        "description": "Connected living area",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Living_Area",
+        "coordinates": [[3800, 1300], [4400, 1900]],
+        "description": "Dining area transition",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "line",
+        "layer": "Peninsula",
+        "start": [3500, 1300],
+        "end": [4500, 1300],
+        "description": "Breakfast bar seating edge",
+        "customizable": true
+      },
+      {
+        "type": "text",
+        "layer": "Text",
+        "coordinates": [3000, 800],
+        "content": "Open Plan Modern Kitchen",
+        "height": 100,
+        "description": "Title"
+      },
+      {
+        "type": "text",
+        "layer": "Text",
+        "coordinates": [3000, 2500],
+        "content": "Living Area",
+        "height": 80,
+        "description": "Living area label"
+      }
+    ]
+  },
+  "workflow_zones": {
+    "cooking_zone": {
+      "center": [1200, 450],
+      "radius": 700,
+      "appliances": ["stove", "oven"]
+    },
+    "prep_zone": {
+      "center": [2000, 450], 
+      "radius": 600,
+      "appliances": ["sink"]
+    },
+    "cleaning_zone": {
+      "center": [2700, 450],
+      "radius": 500,
+      "appliances": ["dishwasher", "sink"]
+    },
+    "storage_zone": {
+      "center": [400, 450],
+      "radius": 400,
+      "appliances": ["refrigerator"]
+    },
+    "social_zone": {
+      "center": [4000, 1000],
+      "radius": 800,
+      "appliances": ["breakfast_bar", "peninsula"]
+    },
+    "living_zone": {
+      "center": [3000, 3000],
+      "radius": 1500,
+      "appliances": []
+    }
+  },
+  "open_plan_features": {
+    "visual_continuity": true,
+    "natural_light_flow": true,
+    "entertainment_friendly": true,
+    "family_interaction": true,
+    "flexible_space_usage": true
+  },
+  "sight_lines": {
+    "kitchen_to_living": "unobstructed",
+    "cooking_to_dining": "clear",
+    "peninsula_visibility": "360_degree"
+  }
+} 

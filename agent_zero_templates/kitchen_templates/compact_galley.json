@@ -1,0 +1,121 @@
+{
+  "template_name": "compact_galley",
+  "description": "Efficient galley kitchen design for small spaces and apartments",
+  "parameters": {
+    "min_dimensions": [2400, 1800],
+    "recommended_dimensions": [3000, 2200],
+    "max_dimensions": [4000, 2500],
+    "style": "modern",
+    "layout_type": "galley"
+  },
+  "appliances_included": ["sink", "stove", "refrigerator", "dishwasher"],
+  "customization_options": {
+    "cabinet_style": ["flat_panel", "shaker"],
+    "color_scheme": ["white", "light_gray", "wood_tone"],
+    "storage_solutions": ["pull_out_drawers", "overhead_cabinets", "corner_solutions"]
+  },
+  "dxf_template": {
+    "layers": [
+      {"name": "Walls", "color": 7, "description": "Room boundary walls"},
+      {"name": "Cabinets", "color": 3, "description": "Kitchen cabinets and storage"},
+      {"name": "Appliances", "color": 5, "description": "Major appliances and fixtures"},
+      {"name": "Dimensions", "color": 2, "description": "Measurement annotations"},
+      {"name": "Text", "color": 1, "description": "Labels and annotations"}
+    ],
+    "figures": [
+      {
+        "type": "rectangle",
+        "layer": "Walls",
+        "coordinates": [[0, 0], [3000, 2200]],
+        "description": "Room perimeter",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle", 
+        "layer": "Cabinets",
+        "coordinates": [[100, 100], [2800, 600]],
+        "description": "Lower cabinets side 1",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Cabinets", 
+        "coordinates": [[100, 1600], [2800, 2100]],
+        "description": "Lower cabinets side 2",
+        "customizable": true,
+        "scale_with_dimensions": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[200, 200], [600, 600]],
+        "description": "Refrigerator",
+        "appliance_type": "refrigerator",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances", 
+        "coordinates": [[800, 200], [1200, 600]],
+        "description": "Range/Stove",
+        "appliance_type": "stove",
+        "customizable": true
+      },
+      {
+        "type": "circle",
+        "layer": "Appliances",
+        "coordinates": [1600, 400],
+        "radius": 150,
+        "description": "Kitchen sink",
+        "appliance_type": "sink",
+        "customizable": true
+      },
+      {
+        "type": "rectangle",
+        "layer": "Appliances",
+        "coordinates": [[2000, 200], [2400, 600]],
+        "description": "Dishwasher",
+        "appliance_type": "dishwasher", 
+        "customizable": true
+      },
+      {
+        "type": "text",
+        "layer": "Text",
+        "coordinates": [1500, 1100],
+        "content": "Compact Galley Kitchen",
+        "height": 80,
+        "description": "Title"
+      }
+    ]
+  },
+  "workflow_zones": {
+    "cooking_zone": {
+      "center": [1000, 400],
+      "radius": 600,
+      "appliances": ["stove"]
+    },
+    "prep_zone": {
+      "center": [1600, 400], 
+      "radius": 400,
+      "appliances": ["sink"]
+    },
+    "cleaning_zone": {
+      "center": [2200, 400],
+      "radius": 300,
+      "appliances": ["dishwasher", "sink"]
+    },
+    "storage_zone": {
+      "center": [400, 400],
+      "radius": 300,
+      "appliances": ["refrigerator"]
+    }
+  },
+  "space_optimization": {
+    "walkway_width": 1000,
+    "counter_depth": 600,
+    "overhead_clearance": 450,
+    "storage_efficiency": "high"
+  }
+} 
